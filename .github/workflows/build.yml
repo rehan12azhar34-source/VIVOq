@@ -34,7 +34,15 @@ jobs:
           mkdir -p app/src/main/res/drawable
           mkdir -p app/src/main/res/values
 
-          # settings.gradle
+          # 1. gradle.properties (Fixes AndroidX and compiler memory)
+          cat << 'EOF' > gradle.properties
+          android.useAndroidX=true
+          android.enableJetifier=true
+          android.nonTransitiveRClass=false
+          org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
+          EOF
+
+          # 2. settings.gradle
           cat << 'EOF' > settings.gradle
           pluginManagement {
               repositories {
@@ -54,15 +62,15 @@ jobs:
           include ':app'
           EOF
 
-          # root build.gradle
+          # 3. root build.gradle
           cat << 'EOF' > build.gradle
           plugins {
-              id 'com.android.application' version '8.2.2' apply false
-              id 'org.jetbrains.kotlin.android' version '1.9.22' apply false
+              id 'com.android.application' version '8.1.4' apply false
+              id 'org.jetbrains.kotlin.android' version '1.8.22' apply false
           }
           EOF
 
-          # app/build.gradle
+          # 4. app/build.gradle
           cat << 'EOF' > app/build.gradle
           plugins {
               id 'com.android.application'
@@ -70,11 +78,11 @@ jobs:
           }
           android {
               namespace 'com.vivo.funtouch.shortcutcenter'
-              compileSdk 34
+              compileSdk 33
               defaultConfig {
                   applicationId "com.myvivo.s1pro.shortcutcenter"
                   minSdk 26
-                  targetSdk 34
+                  targetSdk 33
                   versionCode 1
                   versionName "1.0"
               }
@@ -87,14 +95,14 @@ jobs:
               }
           }
           dependencies {
-              implementation 'androidx.core:core-ktx:1.12.0'
+              implementation 'androidx.core:core-ktx:1.10.1'
               implementation 'androidx.appcompat:appcompat:1.6.1'
-              implementation 'com.google.android.material:material:1.11.0'
-              implementation 'androidx.recyclerview:recyclerview:1.3.2'
+              implementation 'com.google.android.material:material:1.9.0'
+              implementation 'androidx.recyclerview:recyclerview:1.3.0'
           }
           EOF
 
-          # styles.xml
+          # 5. styles.xml
           cat << 'EOF' > app/src/main/res/values/styles.xml
           <resources>
               <style name="Theme.VivoFuntouch" parent="Theme.AppCompat.NoActionBar">
@@ -105,7 +113,7 @@ jobs:
           </resources>
           EOF
 
-          # Drawables
+          # 6. Drawables
           cat << 'EOF' > app/src/main/res/drawable/bg_panel_blur.xml
           <shape xmlns:android="http://schemas.android.com/apk/res/android">
               <solid android:color="#E615171E" />
@@ -132,7 +140,7 @@ jobs:
           </shape>
           EOF
 
-          # AndroidManifest.xml
+          # 7. AndroidManifest.xml
           cat << 'EOF' > app/src/main/AndroidManifest.xml
           <?xml version="1.0" encoding="utf-8"?>
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
@@ -156,7 +164,7 @@ jobs:
           </manifest>
           EOF
 
-          # ShortcutTile.kt
+          # 8. ShortcutTile.kt
           cat << 'EOF' > app/src/main/java/com/vivo/funtouch/shortcutcenter/ShortcutTile.kt
           package com.vivo.funtouch.shortcutcenter
 
@@ -206,7 +214,7 @@ jobs:
           }
           EOF
 
-          # VivoVerticalSlider.kt
+          # 9. VivoVerticalSlider.kt
           cat << 'EOF' > app/src/main/java/com/vivo/funtouch/shortcutcenter/VivoVerticalSlider.kt
           package com.vivo.funtouch.shortcutcenter
           import android.content.Context
@@ -248,7 +256,7 @@ jobs:
           }
           EOF
 
-          # item_vivo_tile.xml
+          # 10. item_vivo_tile.xml
           cat << 'EOF' > app/src/main/res/layout/item_vivo_tile.xml
           <?xml version="1.0" encoding="utf-8"?>
           <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -284,7 +292,7 @@ jobs:
           </LinearLayout>
           EOF
 
-          # TileAdapter.kt
+          # 11. TileAdapter.kt
           cat << 'EOF' > app/src/main/java/com/vivo/funtouch/shortcutcenter/TileAdapter.kt
           package com.vivo.funtouch.shortcutcenter
           import android.graphics.Color
@@ -323,7 +331,7 @@ jobs:
           }
           EOF
 
-          # layout_vivo_shortcut_center.xml
+          # 12. layout_vivo_shortcut_center.xml
           cat << 'EOF' > app/src/main/res/layout/layout_vivo_shortcut_center.xml
           <?xml version="1.0" encoding="utf-8"?>
           <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -427,7 +435,7 @@ jobs:
           </FrameLayout>
           EOF
 
-          # activity_custom.xml
+          # 13. activity_custom.xml
           cat << 'EOF' > app/src/main/res/layout/activity_custom.xml
           <?xml version="1.0" encoding="utf-8"?>
           <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -491,7 +499,7 @@ jobs:
           </LinearLayout>
           EOF
 
-          # CustomTilesActivity.kt
+          # 14. CustomTilesActivity.kt
           cat << 'EOF' > app/src/main/java/com/vivo/funtouch/shortcutcenter/CustomTilesActivity.kt
           package com.vivo.funtouch.shortcutcenter
           import android.os.Bundle
@@ -523,7 +531,7 @@ jobs:
                       tile.isDisplayed = true
                       availableList.removeAt(pos)
                       activeList.add(tile)
-                      rvActive.adapter?.notifyDataSetChanged()
+                      activeAdapter.notifyDataSetChanged()
                       rvAvailable.adapter?.notifyDataSetChanged()
                   }
                   rvActive.layoutManager = GridLayoutManager(this, 3)
@@ -535,7 +543,7 @@ jobs:
           }
           EOF
 
-          # VivoOverlayService.kt
+          # 15. VivoOverlayService.kt
           cat << 'EOF' > app/src/main/java/com/vivo/funtouch/shortcutcenter/VivoOverlayService.kt
           package com.vivo.funtouch.shortcutcenter
           import android.annotation.SuppressLint
@@ -657,7 +665,7 @@ jobs:
           }
           EOF
 
-          # MainActivity.kt
+          # 16. MainActivity.kt
           cat << 'EOF' > app/src/main/java/com/vivo/funtouch/shortcutcenter/MainActivity.kt
           package com.vivo.funtouch.shortcutcenter
           import android.content.Intent
@@ -702,7 +710,7 @@ jobs:
           EOF
 
       - name: Build Debug APK
-        run: gradle :app:assembleDebug --stacktrace
+        run: gradle :app:assembleDebug --stacktrace --no-daemon
 
       - name: Collect and Rename APK
         run: |
