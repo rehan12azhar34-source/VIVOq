@@ -76,8 +76,8 @@ jobs:
                   applicationId "com.myvivo.s1pro.shortcutcenter"
                   minSdk 26
                   targetSdk 33
-                  versionCode 5
-                  versionName "5.0_BootStart"
+                  versionCode 8
+                  versionName "8.0_OptionalBoot"
               }
               compileOptions {
                   sourceCompatibility JavaVersion.VERSION_17
@@ -206,7 +206,7 @@ jobs:
           </vector>
           EOF
 
-          # 8. AndroidManifest.xml (Boot Broadcast Permission & Receiver registered)
+          # 8. AndroidManifest.xml
           cat << 'EOF' > app/src/main/AndroidManifest.xml
           <?xml version="1.0" encoding="utf-8"?>
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
@@ -234,7 +234,7 @@ jobs:
                       android:enabled="true"
                       android:exported="false" />
 
-                  <!-- Auto Start On Boot Receiver -->
+                  <!-- Boot Receiver for Optional Auto-Start -->
                   <receiver
                       android:name=".BootReceiver"
                       android:enabled="true"
@@ -251,7 +251,7 @@ jobs:
           </manifest>
           EOF
 
-          # 9. BootReceiver.kt (Launches service when phone starts)
+          # 9. BootReceiver.kt (Only starts on restart if user enabled the option)
           cat << 'EOF' > app/src/main/java/com/vivo/funtouch/shortcutcenter/BootReceiver.kt
           package com.vivo.funtouch.shortcutcenter
 
@@ -269,8 +269,12 @@ jobs:
                       action == "android.intent.action.QUICKBOOT_POWERON" ||
                       action == "com.htc.intent.action.QUICKBOOT_POWERON") {
 
-                      // Only start if user has granted Floating Overlay
-                      if (Settings.canDrawOverlays(context)) {
+                      // Read user's preference
+                      val prefs = context.getSharedPreferences("vivo_shortcut_prefs", Context.MODE_PRIVATE)
+                      val startOnBootEnabled = prefs.getBoolean("pref_start_on_boot", false)
+
+                      // Only start if the user explicitly turned this option ON
+                      if (startOnBootEnabled && Settings.canDrawOverlays(context)) {
                           val serviceIntent = Intent(context, VivoOverlayService::class.java)
                           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                               context.startForegroundService(serviceIntent)
@@ -946,16 +950,21 @@ jobs:
 
               override fun onDestroy() {
                   super.onDestroy()
-                  if (::triggerView.isInitialized) wm.removeView(triggerView)
-                  if (isPanelOpen) wm.removeView(panelView)
+                  try {
+                      if (::triggerView.isInitialized) wm.removeView(triggerView)
+                  } catch (e: Exception) {}
+                  try {
+                      if (isPanelOpen && ::panelView.isInitialized) wm.removeView(panelView)
+                  } catch (e: Exception) {}
               }
           }
           EOF
 
-          # 18. MainActivity.kt
+          # 18. MainActivity.kt (Dedicated "Start on Boot" Toggle Option)
           cat << 'EOF' > app/src/main/java/com/vivo/funtouch/shortcutcenter/MainActivity.kt
           package com.vivo.funtouch.shortcutcenter
           import android.content.ComponentName
+          import android.content.Context
           import android.content.Intent
           import android.net.Uri
           import android.os.Build
@@ -964,6 +973,7 @@ jobs:
           import android.provider.Settings
           import android.widget.Button
           import android.widget.LinearLayout
+          import android.widget.Switch
           import android.widget.TextView
           import android.widget.Toast
           import androidx.appcompat.app.AppCompatActivity
@@ -973,13 +983,13 @@ jobs:
                   super.onCreate(savedInstanceState)
                   val layout = LinearLayout(this).apply {
                       orientation = LinearLayout.VERTICAL
-                      setPadding(50, 70, 50, 50)
+                      setPadding(50, 60, 50, 50)
                   }
 
                   val title = TextView(this).apply {
-                      text = "Vivo Shortcut Center (Auto Boot)"
-                      textSize = 20f
-                      setPadding(0, 0, 0, 30)
+                      text = "Vivo Shortcut Center"
+                      textSize = 22f
+                      setPadding(0, 0, 0, 24)
                   }
                   layout.addView(title)
 
@@ -1013,15 +1023,31 @@ jobs:
                   layout.addView(btnBattery)
 
                   val btnVivoSettings = Button(this).apply {
-                      text = "4. Enable Vivo Autostart (Required for Boot)"
-                      setOnClickListener {
-                          openVivoAutostart()
-                      }
+                      text = "4. Open Vivo Autostart Settings"
+                      setOnClickListener { openVivoAutostart() }
                   }
                   layout.addView(btnVivoSettings)
 
+                  // --- OPTIONAL START ON BOOT SWITCH ---
+                  val prefs = getSharedPreferences("vivo_shortcut_prefs", Context.MODE_PRIVATE)
+                  val switchBoot = Switch(this).apply {
+                      text = "Start automatically on phone restart (Boot)"
+                      textSize = 15f
+                      isChecked = prefs.getBoolean("pref_start_on_boot", false)
+                      setPadding(0, 24, 0, 24)
+                      setOnCheckedChangeListener { _, isChecked ->
+                          prefs.edit().putBoolean("pref_start_on_boot", isChecked).apply()
+                          Toast.makeText(
+                              this@MainActivity,
+                              if (isChecked) "Start on Boot: ENABLED" else "Start on Boot: DISABLED",
+                              Toast.LENGTH_SHORT
+                          ).show()
+                      }
+                  }
+                  layout.addView(switchBoot)
+
                   val btnStart = Button(this).apply {
-                      text = "5. Launch Shortcut Center"
+                      text = "5. Start Shortcut Center Now"
                       setOnClickListener {
                           if (Settings.canDrawOverlays(this@MainActivity)) {
                               val serviceIntent = Intent(this@MainActivity, VivoOverlayService::class.java)
@@ -1030,7 +1056,7 @@ jobs:
                               } else {
                                   startService(serviceIntent)
                               }
-                              Toast.makeText(this@MainActivity, "Active! Starts automatically on boot", Toast.LENGTH_LONG).show()
+                              Toast.makeText(this@MainActivity, "Shortcut Center Active! Swipe up from bottom edge", Toast.LENGTH_LONG).show()
                           } else {
                               Toast.makeText(this@MainActivity, "Please grant Floating Overlay first", Toast.LENGTH_SHORT).show()
                           }
@@ -1078,6 +1104,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release delete v5.0 --yes || true
-          git tag -d v5.0 || true
-          gh release create v5.0 apk_output/VivoControlCenter.apk --title "Vivo Control Center v5.0 (Auto-Start on Boot)" --notes "Starts automatically whenever phone powers on or restarts" || true
+          gh release delete v8.0 --yes || true
+          git tag -d v8.0 || true
+          gh release create v8.0 apk_output/VivoControlCenter.apk --title "Vivo Control Center v8.0 (Optional Boot Option)" --notes "Added dedicated toggle to make starting on phone restart optional" || true
