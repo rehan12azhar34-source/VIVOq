@@ -115,6 +115,7 @@ jobs:
           A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
           A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
           A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
+          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
           8TEGdMjj/wCK9URuTdLs5wAAAABJRU5ErkJggg==
           EOF_ICON
 
@@ -176,8 +177,8 @@ jobs:
                   applicationId "com.myvivo.s1pro.shortcutcenter"
                   minSdk 26
                   targetSdk 33
-                  versionCode 11
-                  versionName "11.0_CustomTilesFixed"
+                  versionCode 12
+                  versionName "12.0_ExactAlign"
               }
               compileOptions {
                   sourceCompatibility JavaVersion.VERSION_17
@@ -206,7 +207,7 @@ jobs:
           </resources>
           EOF
 
-          # 6. Drawables
+          # 6. Drawables (Authentic Vivo Matte Dark Background #23252B)
           cat << 'EOF' > app/src/main/res/drawable/bg_panel_blur.xml
           <shape xmlns:android="http://schemas.android.com/apk/res/android">
               <solid android:color="#F923252B" />
@@ -232,7 +233,7 @@ jobs:
           </shape>
           EOF
 
-          # 7. Complete Vivo Vector Drawables (All 33 Tiles)
+          # 7. Original Vector Icons
           cat << 'EOF' > app/src/main/res/drawable/ic_vivo_dark.xml
           <vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24">
               <path android:fillColor="#FFFFFFFF" android:pathData="M12,7c-2.76,0 -5,2.24 -5,5s2.24,5 5,5 5,-2.24 5,-5 -2.24,-5 -5,-5zM12,2L12,5M12,19L12,22M4.22,4.22L6.34,6.34M17.66,17.66L19.78,19.78M2,12L5,12M19,12L22,12M4.22,19.78L6.34,17.66M17.66,6.34L19.78,4.22" android:strokeWidth="1.8" android:strokeColor="#FFFFFFFF" />
@@ -378,7 +379,7 @@ jobs:
           }
           EOF
 
-          # 10. ShortcutTile.kt (All 33 Official Vivo Tiles with SharedPreferences Persistence)
+          # 10. ShortcutTile.kt
           cat << 'EOF' > app/src/main/java/com/vivo/funtouch/shortcutcenter/ShortcutTile.kt
           package com.vivo.funtouch.shortcutcenter
           import android.content.Context
@@ -394,7 +395,6 @@ jobs:
           object TileRegistry {
               fun getAllAvailableTiles(): ArrayList<ShortcutTile> {
                   return arrayListOf(
-                      // --- ACTIVE TILES (Displayed in Shortcut Center) ---
                       ShortcutTile("eye", "Eye\nProtection", R.drawable.ic_vivo_eye, isDisplayed = true),
                       ShortcutTile("dark", "Dark Mode", R.drawable.ic_vivo_dark, isActive = true, isDisplayed = true),
                       ShortcutTile("wifi", "Wi-Fi", R.drawable.ic_vivo_wifi, isDisplayed = true),
@@ -415,8 +415,6 @@ jobs:
                       ShortcutTile("rotation", "Portrait\norientation", R.drawable.ic_vivo_generic, isDisplayed = true),
                       ShortcutTile("airplane", "Airplane\nmode", R.drawable.ic_vivo_generic, isDisplayed = true),
                       ShortcutTile("splitscreen", "Split-screen", R.drawable.ic_vivo_generic, isDisplayed = true),
-
-                      // --- AVAILABLE EXTRA TILES (Right Side of Custom Screen to Add/Replace) ---
                       ShortcutTile("device_ctrl", "Device\ncontrols", R.drawable.ic_vivo_generic, isDisplayed = false),
                       ShortcutTile("dnd", "Do Not\nDisturb", R.drawable.ic_vivo_generic, isDisplayed = false),
                       ShortcutTile("low_power", "Low power\nmode", R.drawable.ic_vivo_generic, isDisplayed = false),
@@ -577,7 +575,7 @@ jobs:
           }
           EOF
 
-          # 14. 100% True Full Screen layout_vivo_shortcut_center.xml
+          # 14. Exactly Proportioned layout_vivo_shortcut_center.xml (Matches input_file_9.jpeg)
           cat << 'EOF' > app/src/main/res/layout/layout_vivo_shortcut_center.xml
           <?xml version="1.0" encoding="utf-8"?>
           <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -589,7 +587,7 @@ jobs:
               android:paddingStart="16dp"
               android:paddingEnd="16dp"
               android:paddingTop="36dp"
-              android:paddingBottom="10dp">
+              android:paddingBottom="12dp">
 
               <!-- 1. Top Header -->
               <RelativeLayout
@@ -610,18 +608,16 @@ jobs:
                       android:gravity="center_vertical"
                       android:orientation="horizontal">
                       <TextView android:id="@+id/btnCollapse" android:text=" ⓥ " android:textSize="18sp" android:textColor="#B0B4C0" android:layout_width="wrap_content" android:layout_height="wrap_content" />
-                      <!-- Three Dots button to Open Custom Screen -->
                       <TextView android:id="@+id/btnCustomTiles" android:text=" ••• " android:textSize="18sp" android:textColor="#FF3B30" android:textStyle="bold" android:layout_width="wrap_content" android:layout_height="wrap_content" />
                   </LinearLayout>
               </RelativeLayout>
 
-              <!-- 2. Spacer between Header and Cards -->
+              <!-- 2. Fixed Gap (140dp) so Cards stay at exact original height, NOT pushed down too low -->
               <View
                   android:layout_width="match_parent"
-                  android:layout_height="0dp"
-                  android:layout_weight="1" />
+                  android:layout_height="140dp" />
 
-              <!-- 3. 4 Cards (2x2 Grid) -->
+              <!-- 3. Upper Four Cards (2x2 Grid) -->
               <GridLayout
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
@@ -652,7 +648,7 @@ jobs:
                   android:text="No recent apps"
                   android:textColor="#8A92A3"
                   android:textSize="13sp"
-                  android:layout_marginBottom="18dp" />
+                  android:layout_marginBottom="28dp" />
 
               <!-- 5. Bottom Controls: 3x3 Tiles + 'A'/Gear + Sliders Reaching End of Screen -->
               <LinearLayout
@@ -712,6 +708,7 @@ jobs:
                           </FrameLayout>
                       </LinearLayout>
 
+                      <!-- Dual Sliders Aligned with Row 2 and Row 3, Reaching End -->
                       <LinearLayout
                           android:layout_width="match_parent"
                           android:layout_height="0dp"
@@ -736,7 +733,7 @@ jobs:
           </LinearLayout>
           EOF
 
-          # 15. Authentic Vivo "Custom" Layout (Matching input_file_2.jpeg)
+          # 15. activity_custom.xml
           cat << 'EOF' > app/src/main/res/layout/activity_custom.xml
           <?xml version="1.0" encoding="utf-8"?>
           <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -746,7 +743,6 @@ jobs:
               android:orientation="vertical"
               android:padding="16dp">
 
-              <!-- Top Bar: Custom / Done -->
               <RelativeLayout
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
@@ -784,14 +780,12 @@ jobs:
                   android:layout_height="match_parent"
                   android:orientation="horizontal">
 
-                  <!-- Left Side: Active Tiles Displayed in Shortcut Center -->
                   <androidx.recyclerview.widget.RecyclerView
                       android:id="@+id/rvCustomActive"
                       android:layout_width="0dp"
                       android:layout_weight="3"
                       android:layout_height="match_parent" />
 
-                  <!-- Right Side: Extra Available Tiles to Add / Replace -->
                   <LinearLayout
                       android:layout_width="0dp"
                       android:layout_weight="2"
@@ -809,7 +803,7 @@ jobs:
           </LinearLayout>
           EOF
 
-          # 16. CustomTilesActivity.kt (Saves to SharedPreferences on Done)
+          # 16. CustomTilesActivity.kt
           cat << 'EOF' > app/src/main/java/com/vivo/funtouch/shortcutcenter/CustomTilesActivity.kt
           package com.vivo.funtouch.shortcutcenter
           import android.os.Bundle
@@ -835,7 +829,6 @@ jobs:
                   val availableList = allTiles.filter { !it.isDisplayed }.toMutableList()
 
                   val activeAdapter = TileAdapter(activeList, { tile, pos ->
-                      // Tap active tile -> Moves to available (removes from shortcut center)
                       tile.isDisplayed = false
                       activeList.removeAt(pos)
                       availableList.add(0, tile)
@@ -844,7 +837,6 @@ jobs:
                   })
 
                   val availableAdapter = TileAdapter(availableList, { tile, pos ->
-                      // Tap available extra tile -> Moves to active (adds to shortcut center!)
                       tile.isDisplayed = true
                       availableList.removeAt(pos)
                       activeList.add(tile)
@@ -859,7 +851,6 @@ jobs:
                   rvAvailable.adapter = availableAdapter
 
                   findViewById<TextView>(R.id.btnDone).setOnClickListener {
-                      // Save user changes permanently
                       TileRegistry.saveTiles(this, allTiles)
                       finish()
                   }
@@ -867,7 +858,7 @@ jobs:
           }
           EOF
 
-          # 17. VivoOverlayService.kt (Dynamically Loads Custom Tiles)
+          # 17. VivoOverlayService.kt
           cat << 'EOF' > app/src/main/java/com/vivo/funtouch/shortcutcenter/VivoOverlayService.kt
           package com.vivo.funtouch.shortcutcenter
           import android.annotation.SuppressLint
@@ -986,7 +977,6 @@ jobs:
                       }
                   }
 
-                  // Load saved active tiles dynamically
                   val activeTiles = TileRegistry.loadSavedTiles(this).filter { it.isDisplayed }.toMutableList()
                   val adapter = TileAdapter(
                       tiles = activeTiles,
@@ -1020,7 +1010,6 @@ jobs:
                   panelView.findViewById<View>(R.id.btnClose).setOnClickListener { vibrateClick(); hidePanel() }
                   panelView.findViewById<View>(R.id.btnCollapse).setOnClickListener { vibrateClick(); hidePanel() }
 
-                  // Three dots button opens the Customization screen
                   panelView.findViewById<View>(R.id.btnCustomTiles).setOnClickListener {
                       vibrateClick()
                       hidePanel()
@@ -1276,6 +1265,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release delete v11.0 --yes || true
-          git tag -d v11.0 || true
-          gh release create v11.0 apk_output/VivoControlCenter.apk --title "Vivo Control Center v11.0 (Full Custom Tiles Fixed)" --notes "All 33 official Vivo tiles in the 3-dots Custom screen to add/replace, saved to storage" || true
+          gh release delete v12.0 --yes || true
+          git tag -d v12.0 || true
+          gh release create v12.0 apk_output/VivoControlCenter.apk --title "Vivo Control Center v12.0 (Exact Vivo Alignment)" --notes "Cards set to authentic Vivo height, tiles and sliders flush to bottom nav bar" || true
