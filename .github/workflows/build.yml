@@ -1,4 +1,4 @@
-name: Build My Custom Vivo Control Center APK
+name: Build Vivo Control Center APK
 
 on: [push, workflow_dispatch]
 
@@ -15,30 +15,47 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Assemble Custom Vivo Project
+      - name: Install Gradle Tool
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.2'
+
+      - name: Generate Custom Vivo Files
         run: |
           mkdir -p app/src/main/java/com/vivo/funtouch/shortcutcenter
           mkdir -p app/src/main/res/layout
           mkdir -p app/src/main/res/drawable
           mkdir -p app/src/main/res/values
 
-          # 1. settings.gradle
+          # settings.gradle
           cat << 'EOF' > settings.gradle
-          pluginManagement { repositories { google(); mavenCentral(); gradlePluginPortal() } }
-          dependencyResolutionManagement { repositories { google(); mavenCentral() } }
+          pluginManagement {
+              repositories {
+                  google()
+                  mavenCentral()
+                  gradlePluginPortal()
+              }
+          }
+          dependencyResolutionManagement {
+              repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+              repositories {
+                  google()
+                  mavenCentral()
+              }
+          }
           rootProject.name = "VivoShortcutCenter"
           include ':app'
           EOF
 
-          # 2. build.gradle
+          # root build.gradle
           cat << 'EOF' > build.gradle
           plugins {
-              id 'com.android.application' version '8.1.1' apply false
-              id 'org.jetbrains.kotlin.android' version '1.8.20' apply false
+              id 'com.android.application' version '8.2.2' apply false
+              id 'org.jetbrains.kotlin.android' version '1.9.22' apply false
           }
           EOF
 
-          # 3. app/build.gradle
+          # app/build.gradle
           cat << 'EOF' > app/build.gradle
           plugins {
               id 'com.android.application'
@@ -46,24 +63,31 @@ jobs:
           }
           android {
               namespace 'com.vivo.funtouch.shortcutcenter'
-              compileSdk 33
+              compileSdk 34
               defaultConfig {
                   applicationId "com.myvivo.s1pro.shortcutcenter"
                   minSdk 26
-                  targetSdk 33
+                  targetSdk 34
                   versionCode 1
-                  versionName "1.0_Custom"
+                  versionName "1.0"
+              }
+              compileOptions {
+                  sourceCompatibility JavaVersion.VERSION_17
+                  targetCompatibility JavaVersion.VERSION_17
+              }
+              kotlinOptions {
+                  jvmTarget = '17'
               }
           }
           dependencies {
-              implementation 'androidx.core:core-ktx:1.9.0'
+              implementation 'androidx.core:core-ktx:1.12.0'
               implementation 'androidx.appcompat:appcompat:1.6.1'
-              implementation 'com.google.android.material:material:1.8.0'
-              implementation 'androidx.recyclerview:recyclerview:1.3.0'
+              implementation 'com.google.android.material:material:1.11.0'
+              implementation 'androidx.recyclerview:recyclerview:1.3.2'
           }
           EOF
 
-          # 4. styles.xml
+          # styles.xml
           cat << 'EOF' > app/src/main/res/values/styles.xml
           <resources>
               <style name="Theme.VivoFuntouch" parent="Theme.AppCompat.NoActionBar">
@@ -74,7 +98,7 @@ jobs:
           </resources>
           EOF
 
-          # 5. Drawables
+          # Drawables
           cat << 'EOF' > app/src/main/res/drawable/bg_panel_blur.xml
           <shape xmlns:android="http://schemas.android.com/apk/res/android">
               <solid android:color="#E615171E" />
@@ -101,7 +125,7 @@ jobs:
           </shape>
           EOF
 
-          # 6. AndroidManifest.xml
+          # AndroidManifest.xml
           cat << 'EOF' > app/src/main/AndroidManifest.xml
           <?xml version="1.0" encoding="utf-8"?>
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
@@ -125,7 +149,7 @@ jobs:
           </manifest>
           EOF
 
-          # 7. Tile Model & Registry (All 28 Vivo tiles)
+          # ShortcutTile.kt
           cat << 'EOF' > app/src/main/java/com/vivo/funtouch/shortcutcenter/ShortcutTile.kt
           package com.vivo.funtouch.shortcutcenter
 
@@ -175,7 +199,7 @@ jobs:
           }
           EOF
 
-          # 8. Vivo Vertical Slider
+          # VivoVerticalSlider.kt
           cat << 'EOF' > app/src/main/java/com/vivo/funtouch/shortcutcenter/VivoVerticalSlider.kt
           package com.vivo.funtouch.shortcutcenter
           import android.content.Context
@@ -217,7 +241,7 @@ jobs:
           }
           EOF
 
-          # 9. Single Tile Layout & Adapter
+          # item_vivo_tile.xml
           cat << 'EOF' > app/src/main/res/layout/item_vivo_tile.xml
           <?xml version="1.0" encoding="utf-8"?>
           <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -253,6 +277,7 @@ jobs:
           </LinearLayout>
           EOF
 
+          # TileAdapter.kt
           cat << 'EOF' > app/src/main/java/com/vivo/funtouch/shortcutcenter/TileAdapter.kt
           package com.vivo.funtouch.shortcutcenter
           import android.graphics.Color
@@ -291,7 +316,7 @@ jobs:
           }
           EOF
 
-          # 10. Main Panel Layout
+          # layout_vivo_shortcut_center.xml
           cat << 'EOF' > app/src/main/res/layout/layout_vivo_shortcut_center.xml
           <?xml version="1.0" encoding="utf-8"?>
           <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -395,7 +420,7 @@ jobs:
           </FrameLayout>
           EOF
 
-          # 11. Custom Tiles Screen Layout & Activity
+          # activity_custom.xml
           cat << 'EOF' > app/src/main/res/layout/activity_custom.xml
           <?xml version="1.0" encoding="utf-8"?>
           <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -459,6 +484,7 @@ jobs:
           </LinearLayout>
           EOF
 
+          # CustomTilesActivity.kt
           cat << 'EOF' > app/src/main/java/com/vivo/funtouch/shortcutcenter/CustomTilesActivity.kt
           package com.vivo.funtouch.shortcutcenter
           import android.os.Bundle
@@ -502,7 +528,7 @@ jobs:
           }
           EOF
 
-          # 12. Overlay Service & Main Activity
+          # VivoOverlayService.kt
           cat << 'EOF' > app/src/main/java/com/vivo/funtouch/shortcutcenter/VivoOverlayService.kt
           package com.vivo.funtouch.shortcutcenter
           import android.annotation.SuppressLint
@@ -624,6 +650,7 @@ jobs:
           }
           EOF
 
+          # MainActivity.kt
           cat << 'EOF' > app/src/main/java/com/vivo/funtouch/shortcutcenter/MainActivity.kt
           package com.vivo.funtouch.shortcutcenter
           import android.content.Intent
@@ -667,10 +694,8 @@ jobs:
           }
           EOF
 
-          gradle wrapper --gradle-version 8.2
-
       - name: Build My Custom APK
-        run: ./gradlew assembleDebug --stacktrace
+        run: gradle assembleDebug --stacktrace
 
       - name: Export APK File
         uses: actions/upload-artifact@v4
