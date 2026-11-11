@@ -31,7 +31,6 @@ jobs:
         run: |
           cat << 'EOF_PY' > generate_project.py
           import os
-          import base64
 
           pkg = 'app/src/main/java/com/vivo/funtouch/shortcutcenter'
           os.makedirs(pkg, exist_ok=True)
@@ -39,110 +38,37 @@ jobs:
           os.makedirs('app/src/main/res/drawable', exist_ok=True)
           os.makedirs('app/src/main/res/values', exist_ok=True)
 
-          # 1. Launcher Icon (Vivo Gradient Rings) via standard base64 (Zero external packages needed)
-          b64_icon = """iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAIAAABt+uBvAAAR7ElEQVR42u2cW4wk11nH/+dUVd9n
-          enruM3uZvcTrSzZeyRfhVbAxTiAxF4OwQEQQyTzwgBASQogHEE9ISPCAX5BwHkAQIUAkvIDiF1ZR
-          qYjEgkQIKuUldpDtrb3r3Zmd6blM93RVPVyqe0ZrvFmvd/ZqZid6NlPdU/X17/vO932PcwgAZv7F
-          B8ePf+tHf3P0/Z9g/v4HA7Z/tP979P9+v/nF897r5y1jAQAAbz89/r2Xz3v/L3j8y9d97+X7/t8h
-          5g8/PP7+S+e9X162jPnTD+ff/N6/ffKj53/v5+e/9/J57//1v3/v/B8e/P77899/6bz3X77v/b/m
-          8f+/+v5/H88f/b/u/MsvX7e8+cOPj3/wN+f9v+D86756+X6s/b/G7/89/v0/PP6Xb172/2/u/N9+
-          dvzD789//xrn/3rPj33v1fPeP573Xn7g+Ldfun/8g9fPe7983Xv5/nv+r/vP33v1vPf/evzbf3j/
-          X77v96/f/6uf/f712395/Mvj8987/z2250/2nF+zfv1+6/f/3vv3Hzj//vP/9r3jX752/q/n/f/j
-          +7H2v8bv/9X/8w+fP+n+/83j3792/nvd+Zfvv3887//57j/589vfv/f/9/75h4/+y88u//uPr18A
-          j/s5gIeHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          A4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eHA4eH
-          8TEGdMjj/wCK9URuTdLs5wAAAABJRU5ErkJggg=="""
+          # 1. New App Icon (Black Squircle with White Interlocking Rhombus Shortcuts Logo)
+          icon_svg = '''<vector xmlns:android="http://schemas.android.com/apk/res/android"
+              android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+              <path android:fillColor="#FF000000" android:pathData="M28,6h52c12.15,0 22,9.85 22,22v52c0,12.15 -9.85,22 -22,22H28c-12.15,0 -22,-9.85 -22,-22V28c0,-12.15 9.85,-22 22,-22z"/>
+              <path android:fillColor="#FFFFFFFF" android:pathData="M54,22L76.6,44.6c3.1,3.1 3.1,8.2 0,11.3L64.8,67.7c-2.4,2.4 -6.3,2.4 -8.7,0L44.3,55.9c-2.4,-2.4 -2.4,-6.3 0,-8.7l9.7,-9.7l6.8,6.8c1.2,1.2 3.1,1.2 4.2,0c1.2,-1.2 1.2,-3.1 0,-4.2L54,29.1l-7.9,7.9c-4.7,4.7 -4.7,12.3 0,17l11.8,11.8c4.7,4.7 12.3,4.7 17,0l11.8,-11.8c4.7,-4.7 4.7,-12.3 0,-17L66.3,16.6c-6.8,-6.8 -17.8,-6.8 -24.6,0L29.9,28.4c-1.2,1.2 -1.2,3.1 0,4.2c1.2,1.2 3.1,1.2 4.2,0L45.9,20.8c4.5,-4.5 11.7,-4.5 16.2,0z"/>
+              <path android:fillColor="#FFFFFFFF" android:pathData="M54,86L31.4,63.4c-3.1,-3.1 -3.1,-8.2 0,-11.3l11.8,-11.8c2.4,-2.4 6.3,-2.4 8.7,0l11.8,11.8c2.4,2.4 2.4,6.3 0,8.7L54,70.5l-6.8,-6.8c-1.2,-1.2 -3.1,-1.2 -4.2,0c-1.2,1.2 -1.2,3.1 0,4.2L54,78.9l7.9,-7.9c4.7,-4.7 4.7,-12.3 0,-17L50.1,42.2c-4.7,-4.7 -12.3,-4.7 -17,0L21.3,54c-4.7,4.7 -4.7,12.3 0,17l20.4,20.4c6.8,6.8 17.8,6.8 24.6,0l11.8,-11.8c1.2,-1.2 1.2,-3.1 0,-4.2c-1.2,-1.2 -3.1,-1.2 -4.2,0L62.1,87.2c-4.5,4.5 -11.7,4.5 -16.2,0z"/>
+          </vector>'''
 
-          raw_icon = base64.b64decode(b64_icon)
-          for dens in ['hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']:
-              p = f'app/src/main/res/mipmap-{dens}'
-              os.makedirs(p, exist_ok=True)
-              with open(f'{p}/ic_launcher.png', 'wb') as f:
-                  f.write(raw_icon)
-              with open(f'{p}/ic_launcher_round.png', 'wb') as f:
-                  f.write(raw_icon)
+          round_svg = '''<vector xmlns:android="http://schemas.android.com/apk/res/android"
+              android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+              <path android:fillColor="#FF000000" android:pathData="M54,54m-48,0a48,48 0 1,0 96,0a48,48 0 1,0 -96,0"/>
+              <path android:fillColor="#FFFFFFFF" android:pathData="M54,22L76.6,44.6c3.1,3.1 3.1,8.2 0,11.3L64.8,67.7c-2.4,2.4 -6.3,2.4 -8.7,0L44.3,55.9c-2.4,-2.4 -2.4,-6.3 0,-8.7l9.7,-9.7l6.8,6.8c1.2,1.2 3.1,1.2 4.2,0c1.2,-1.2 1.2,-3.1 0,-4.2L54,29.1l-7.9,7.9c-4.7,4.7 -4.7,12.3 0,17l11.8,11.8c4.7,4.7 12.3,4.7 17,0l11.8,-11.8c4.7,-4.7 4.7,-12.3 0,-17L66.3,16.6c-6.8,-6.8 -17.8,-6.8 -24.6,0L29.9,28.4c-1.2,1.2 -1.2,3.1 0,4.2c1.2,1.2 3.1,1.2 4.2,0L45.9,20.8c4.5,-4.5 11.7,-4.5 16.2,0z"/>
+              <path android:fillColor="#FFFFFFFF" android:pathData="M54,86L31.4,63.4c-3.1,-3.1 -3.1,-8.2 0,-11.3l11.8,-11.8c2.4,-2.4 6.3,-2.4 8.7,0l11.8,11.8c2.4,2.4 2.4,6.3 0,8.7L54,70.5l-6.8,-6.8c-1.2,-1.2 -3.1,-1.2 -4.2,0c-1.2,1.2 -1.2,3.1 0,4.2L54,78.9l7.9,-7.9c4.7,-4.7 4.7,-12.3 0,-17L50.1,42.2c-4.7,-4.7 -12.3,-4.7 -17,0L21.3,54c-4.7,4.7 -4.7,12.3 0,17l20.4,20.4c6.8,6.8 17.8,6.8 24.6,0l11.8,-11.8c1.2,-1.2 1.2,-3.1 0,-4.2c-1.2,-1.2 -3.1,-1.2 -4.2,0L62.1,87.2c-4.5,4.5 -11.7,4.5 -16.2,0z"/>
+          </vector>'''
 
-          # 2. Drawables (Matte Dark #1E2026, Blue #4D6EF5, White #FFFFFF)
+          open('app/src/main/res/drawable/ic_launcher.xml', 'w').write(icon_svg)
+          open('app/src/main/res/drawable/ic_launcher_round.xml', 'w').write(round_svg)
+
+          # 2. Drawables (Matte Dark #1E2026, Blue #4D6EF5, Card #1C1E27)
           open('app/src/main/res/drawable/bg_panel_blur.xml', 'w').write('<shape xmlns:android=\"http://schemas.android.com/apk/res/android\"><solid android:color=\"#F91E2026\"/></shape>')
           open('app/src/main/res/drawable/bg_service_card.xml', 'w').write('<shape xmlns:android=\"http://schemas.android.com/apk/res/android\"><solid android:color=\"#21232B\"/><corners android:radius=\"14dp\"/></shape>')
+          open('app/src/main/res/drawable/bg_dashboard_card.xml', 'w').write('<shape xmlns:android=\"http://schemas.android.com/apk/res/android\"><solid android:color=\"#1C1E27\"/><corners android:radius=\"18dp\"/></shape>')
           open('app/src/main/res/drawable/bg_circle_toggle_inactive.xml', 'w').write('<shape xmlns:android=\"http://schemas.android.com/apk/res/android\" android:shape=\"oval\"><solid android:color=\"#2B2D38\"/></shape>')
           open('app/src/main/res/drawable/bg_circle_toggle_active.xml', 'w').write('<shape xmlns:android=\"http://schemas.android.com/apk/res/android\" android:shape=\"oval\"><solid android:color=\"#4D6EF5\"/></shape>')
           open('app/src/main/res/drawable/bg_circle_toggle_white.xml', 'w').write('<shape xmlns:android=\"http://schemas.android.com/apk/res/android\" android:shape=\"oval\"><solid android:color=\"#FFFFFFFF\"/></shape>')
 
           # 3. Vector Icons
-          def make_vec(path, stroke=0, fill="#FFFFFFFF"):
-              f = "#00000000" if stroke else fill
+          def make_vec(path, stroke=0):
+              fill = "#00000000" if stroke else "#FFFFFFFF"
               sc = "#FFFFFFFF" if stroke else "#00000000"
-              return f'<vector xmlns:android=\"http://schemas.android.com/apk/res/android\" android:width=\"24dp\" android:height=\"24dp\" android:viewportWidth=\"24\" android:viewportHeight=\"24\"><path android:fillColor=\"{f}\" android:strokeColor=\"{sc}\" android:strokeWidth=\"{stroke}\" android:pathData=\"{path}\"/></vector>'
+              return f'<vector xmlns:android=\"http://schemas.android.com/apk/res/android\" android:width=\"24dp\" android:height=\"24dp\" android:viewportWidth=\"24\" android:viewportHeight=\"24\"><path android:fillColor=\"{fill}\" android:strokeColor=\"{sc}\" android:strokeWidth=\"{stroke}\" android:pathData=\"{path}\"/></vector>'
 
           icons = {
               'ic_vivo_eye': ('M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27,-3.11 11,-7.5c-1.73,-4.39 -6,-7.5 -11,-7.5zM12,17c-2.76,0 -5,-2.24 -5,-5s2.24,-5 5,-5 5,2.24 5,5 -2.24,5 -5,5zm0,-8c-1.66,0 -3,1.34 -3,3s1.34,3 3,3 3,-1.34 3,-3 -1.34,-3 -3,-3z', 0),
@@ -154,37 +80,26 @@ jobs:
               'ic_vivo_rocket': ('M13.13,2.51l-1.13,1.13c-2.34,2.34 -3.12,5.74 -2.34,8.71L4.31,17.7 6.3,19.69l5.35,-5.35c2.97,0.78 6.37,0 8.71,-2.34l1.13,-1.13C22.42,7.9 16.1,1.58 13.13,2.51zM15,9c-0.83,0 -1.5,-0.67 -1.5,-1.5S14.17,6 15,6s1.5,0.67 1.5,1.5S15.83,9 15,9z', 0),
               'ic_vivo_bluetooth': ('M14.24,12l4.24,-4.24L13,2v6.59L8.71,4.29 7.29,5.71 12.59,11l-5.3,5.29 1.41,1.41L13,13.41V22l5.48,-5.76L14.24,12zM15,5.83l1.88,1.88L15,9.59V5.83zM16.88,16.29L15,18.17v-3.76l1.88,1.88z', 0),
               'ic_vivo_torch': ('M6,2h12v3H6V2zM7,7h10l-2,5v8H9v-8L7,7z', 0),
-              'ic_vivo_location': ('M12,2C8.13,2 5,5.13 5,9c0,5.25 7,13 7,13s7,-7.75 7,-13c0,-3.87 -3.13,-7 -7,-7zm0,9.5c-1.38,0 -2.5,-1.12 -2.5,-2.5s1.12,-2.5 2.5,-2.5 2.5,1.12 2.5,2.5 -1.12,2.5 -2.5,2.5z', 0),
-              'ic_vivo_sim': ('M18,2h-8L4,8v12c0,1.1 0.9,2 2,2h12c1.1,0 2,-0.9 2,-2V4C20,2.9 19.1,2 18,2zM18,20H6V9h4V4h8V20z M11,10h2v7h-2z', 0),
-              'ic_vivo_easytouch': ('M12,12m-9,0a9,9 0 1,0 18,0a9,9 0 1,0 -18,0 M12,12m-5,0a5,5 0 1,0 10,0a5,5 0 1,0 -10,0', 1.8),
               'ic_vivo_calc': ('M19,3H5C3.9,3 3,3.9 3,5v14c0,1.1 0.9,2 2,2h14c1.1,0 2,-0.9 2,-2V5C21,3.9 20.1,3 19,3zM7,12h3v1.5H7zm4,6h6v1.5h-6z', 0),
               'ic_vivo_game': ('M21,6H3C1.9,6 1,6.9 1,8v8c0,1.1 0.9,2 2,2h18c1.1,0 2,-0.9 2,-2V8C23,6.9 22.1,6 21,6zM7,13H5v-2h2V9h2v2h2v2H9v2H7V13z', 0),
               'ic_vivo_hotspot': ('M12,11c-1.1,0 -2,0.9 -2,2s0.9,2 2,2 2,-0.9 2,-2 -0.9,-2 -2,-2zm6,-1.79c-1.33,1.21 -3.07,1.88 -4.89,1.88s-3.56,-0.67 -4.89,-1.88', 0),
+              'ic_vivo_battery': ('M17,6H4C2.9,6 2,6.9 2,8v8c0,1.1 0.9,2 2,2h13c1.1,0 2,-0.9 2,-2v-2h2v-4h-2V8C19,6.9 18.1,6 17,6zM17,16H4V8h13v8z M6,10h5v4H6z', 0),
+              'ic_vivo_super_battery': ('M17,6H4C2.9,6 2,6.9 2,8v8c0,1.1 0.9,2 2,2h13c1.1,0 2,-0.9 2,-2v-2h2v-4h-2V8C19,6.9 18.1,6 17,6z M12,9h-2v4h2z', 0),
               'ic_vivo_silent': ('M20,18.69L7.84,6.14 5.27,3.48 3.88,4.87l2.84,2.94C6.26,8.81 6,10.05 6,11.39V16l-2,2v1h13.73l2.25,2.25 1.41,-1.41L20,18.69z', 0),
               'ic_vivo_record': ('M17,10.5V7c0,-0.55 -0.45,-1 -1,-1H4c-0.55,0 -1,0.45 -1,1v10c0,0.55 0.45,1 1,1h12c0.55,0 1,-0.45 1,-1v-3.5l4,4v-11l-4,4z', 0),
               'ic_vivo_rotation': ('M12,4V1L8,5l4,4V6c3.31,0 6,2.69 6,6 0,1.01 -0.25,1.97 -0.7,2.8l1.46,1.46C19.54,15.03 20,13.57 20,12c0,-4.42 -3.58,-8 -8,-8z', 0),
-              'ic_vivo_airplane': ('M21,16v-2l-8,-5V3.5c0,-0.83 -0.67,-1.5 -1.5,-1.5S10,2.67 10,3.5V9l-8,5v2l8,-2.5V19l-2,1.5V22l3.5,-1 3.5,1v-1.5L13,19v-5.5l8,2.5z', 0),
-              'ic_vivo_split': ('M19,3H5C3.9,3 3,3.9 3,5v14c0,1.1 0.9,2 2,2h14c1.1,0 2,-0.9 2,-2V5C21,3.9 20.1,3 19,3zM10.5,19H5V5h5.5v14zM19,19h-5.5V5H19v14z', 0),
-              'ic_vivo_home': ('M10,20v-6h4v6h5v-8h3L12,3 2,12h3v8z', 0),
-              'ic_vivo_dnd': ('M12.3,2a10,10 0 0,0 -1.9,0.18 10,10 0 1,0 11.42,11.42A10,10 0 0,1 12.3,2z', 0),
-              'ic_vivo_battery': ('M17,6H4C2.9,6 2,6.9 2,8v8c0,1.1 0.9,2 2,2h13c1.1,0 2,-0.9 2,-2v-2h2v-4h-2V8C19,6.9 18.1,6 17,6zM17,16H4V8h13v8z', 0),
-              'ic_vivo_super_battery': ('M17,6H4C2.9,6 2,6.9 2,8v8c0,1.1 0.9,2 2,2h13c1.1,0 2,-0.9 2,-2v-2h2v-4h-2V8C19,6.9 18.1,6 17,6z M12,9h-2v4h2z', 0),
               'ic_vivo_camera': ('M9,2L7.17,4H4c-1.1,0 -2,0.9 -2,2v12c0,1.1 0.9,2 2,2h16c1.1,0 2,-0.9 2,-2V6c0,-1.1 -0.9,-2 -2,-2h-3.17L15,2H9zm3,15c-2.76,0 -5,-2.24 -5,-5s2.24,-5 5,-5 5,2.24 5,5 -2.24,5 -5,5z', 0),
+              'ic_vivo_screenshot': ('M4,9V5H8 M16,5H20V9 M20,15V19H16 M8,19H4V15 M15,9H9v6h6V9z', 2),
               'ic_vivo_power': ('M12,3v8 M7.05,5.05A9,9 0 1,0 16.95,5.05', 2),
-              'ic_vivo_motorbike': ('M12,2C6.48,2 2,6.48 2,12c0,3.31 1.61,6.24 4.09,8.04L8.5,17H16l2.41,3.04C20.39,18.24 22,15.31 22,12 22,6.48 17.52,2 12,2z', 0),
-              'ic_vivo_mini': ('M17,1H7C5.9,1 5,1.9 5,3v18c0,1.1 0.9,2 2,2h10c1.1,0 2,-0.9 2,-2V3C19,1.9 18.1,1 17,1zM17,19H7V5h10V19z', 0),
-              'ic_vivo_cast': ('M21,3H3C1.9,3 1,3.9 1,5v14c0,1.1 0.9,2 2,2h18c1.1,0 2,-0.9 2,-2V5C23,3.9 22.1,3 21,3zM21,19H3V5h18V19z', 0),
-              'ic_vivo_jovi': ('M3,8V4h4 M17,4h4v4 M21,16v4h-4 M7,20H3v-4 M12,8a4,4 0 1,0 0.01,0', 1.8),
-              'ic_vivo_share': ('M18,16.08c-0.76,0 -1.44,0.3 -1.96,0.77L8.91,12.7c0.05,-0.23 0.09,-0.46 0.09,-0.7s-0.04,-0.47 -0.09,-0.7l7.05,-4.11', 0),
-              'ic_vivo_nearby': ('M8,7a4,4 0 0,0 -4,4a4,4 0 0,0 4,4h8a4,4 0 0,0 4,-4a4,4 0 0,0 -4,-4h-8z', 2),
-              'ic_vivo_action': ('M12,2v20 M2,12h20 M4.93,4.93l14.14,14.14 M4.93,19.07l14.14,-14.14', 2),
+              'ic_vivo_restart': ('M12,4V1L8,5l4,4V6c3.31,0 6,2.69 6,6 0,4.42 -3.58,8 -8,8s-8,-3.58 -8,-8H2c0,5.52 4.48,10 10,10s10,-4.48 10,-10S17.52,2 12,2v2z', 0),
+              'ic_vivo_ram': ('M19,7h-2V5h-2v2h-2V5h-2v2h-2V5H7v2H5c-1.1,0 -2,0.9 -2,2v10c0,1.1 0.9,2 2,2h14c1.1,0 2,-0.9 2,-2V9c0,-1.1 -0.9,-2 -2,-2zm-4,10H9v-6h6v6z', 0),
               'ic_vivo_settings': ('M19.14,12.94c0.04,-0.3 0.06,-0.61 0.06,-0.94 0,-0.32 -0.02,-0.64 -0.07,-0.94l2.03,-1.58c0.18,-0.14 0.23,-0.41 0.12,-0.61l-1.92,-3.32c-0.12,-0.22 -0.37,-0.29 -0.59,-0.22l-2.39,0.96c-0.5,-0.38 -1.03,-0.7 -1.62,-0.94L14.4,2.81c-0.04,-0.24 -0.24,-0.41 -0.48,-0.41h-3.84c-0.24,0 -0.43,0.17 -0.47,0.41L9.25,5.35C8.66,5.59 8.12,5.92 7.63,6.29L5.24,5.33c-0.22,-0.08 -0.47,0 -0.59,0.22L2.74,8.87c-0.12,0.21 -0.08,0.47 0.12,0.61l2.03,1.58C4.84,11.36 4.8,11.69 4.8,12s0.02,0.64 0.07,0.94l-2.03,1.58c-0.18,0.14 -0.23,0.41 -0.12,0.61l1.92,3.32c0.12,0.22 0.37,0.29 0.59,0.22l2.39,-0.96c0.5,0.38 1.03,0.7 1.62,0.94l0.36,2.54c0.05,0.24 0.24,0.41 0.48,0.41h3.84c0.24,0 0.44,-0.17 0.47,-0.41l0.36,-2.54c0.59,-0.24 1.13,-0.56 1.62,-0.94l2.39,0.96c0.22,0.08 0.47,0 0.59,-0.22l1.92,-3.32c0.12,-0.22 0.07,-0.47 -0.12,-0.61l-2.01,-1.58zM12,15.6c-1.98,0 -3.6,-1.62 -3.6,-3.6s1.62,-3.6 3.6,-3.6 3.6,1.62 3.6,3.6 -1.62,3.6 -3.6,3.6z', 0),
-              # App logos for cards
               'ic_vivo_whatsapp': ('M12,2a10,10 0 0,0 -8.66,15l-1.34,4.9 5.02,-1.32A10,10 0 1,0 12,2zm5.45,14.07c-0.23,0.64 -1.14,1.18 -1.82,1.33 -0.46,0.1 -1.06,0.18 -3.07,-0.66 -2.58,-1.07 -4.24,-3.69 -4.37,-3.86 -0.13,-0.17 -1.05,-1.4 -1.05,-2.67s0.66,-1.89 0.9,-2.14c0.23,-0.25 0.51,-0.31 0.68,-0.31s0.34,0 0.49,0.01c0.15,0.01 0.36,-0.06 0.56,0.43 0.21,0.5 0.71,1.74 0.77,1.87 0.06,0.13 0.1,0.28 0.02,0.45 -0.09,0.17 -0.13,0.27 -0.26,0.42 -0.13,0.15 -0.27,0.34 -0.39,0.46 -0.13,0.13 -0.26,0.27 -0.11,0.53 0.15,0.25 0.67,1.1 1.44,1.78 0.99,0.88 1.83,1.15 2.09,1.28 0.25,0.13 0.4,0.11 0.55,-0.06 0.15,-0.17 0.64,-0.74 0.81,-1 0.17,-0.25 0.34,-0.21 0.57,-0.13 0.23,0.08 1.48,0.7 1.73,0.83 0.25,0.13 0.42,0.19 0.49,0.29 0.06,0.11 0.06,0.63 -0.17,1.27z', 0),
               'ic_vivo_youtube': ('M21.58,7.19c-0.23,-0.86 -0.91,-1.54 -1.77,-1.77C18.25,5 12,5 12,5s-6.25,0 -7.81,0.42c-0.86,0.23 -1.54,0.91 -1.77,1.77C2,8.75 2,12 2,12s0,3.25 0.42,4.81c0.23,0.86 0.91,1.54 1.77,1.77C5.75,19 12,19 12,19s6.25,0 7.81,-0.42c0.86,-0.23 1.54,-0.91 1.77,-1.77C22,15.25 22,12 22,12s0,-3.25 -0.42,-4.81z M10,15.5v-7l6,3.5 -6,3.5z', 0),
               'ic_vivo_facebook': ('M22,12c0,-5.52 -4.48,-10 -10,-10S2,6.48 2,12c0,4.99 3.66,9.12 8.44,9.88v-6.99H7.9v-2.89h2.54V9.8c0,-2.51 1.49,-3.89 3.78,-3.89 1.09,0 2.23,0.2 2.23,0.2v2.46h-1.26c-1.24,0 -1.63,0.77 -1.63,1.56v1.88h2.78l-0.44,2.89h-2.33v6.99C18.34,21.12 22,16.99 22,12z', 0),
               'ic_vivo_tiktok': ('M16.6,5.82s0.51,0.5 1.5,0.77c1,0.27 1.9,0.17 1.9,0.17v3.08s-1.12,-0.03 -2.2,-0.47c-0.9,-0.36 -1.48,-0.9 -1.48,-0.9v6.52c0,3.12 -2.53,5.65 -5.65,5.65s-5.65,-2.53 -5.65,-5.65 2.53,-5.65 5.65,-5.65c0.52,0 1.02,0.07 1.5,0.2v3.25c-0.45,-0.23 -0.96,-0.36 -1.5,-0.36 -1.41,0 -2.55,1.14 -2.55,2.55s1.14,2.55 2.55,2.55 2.55,-1.14 2.55,-2.55V2h3.33c0,1.5 0.58,2.78 1.6,3.82z', 0),
-              'ic_vivo_folder': ('M10,4H4c-1.1,0 -1.99,0.9 -1.99,2L2,18c0,1.1 0.9,2 2,2h16c1.1,0 2,-0.9 2,-2V8c0,-1.1 -0.9,-2 -2,-2h-8l-2,-2z', 0)
+              'ic_vivo_folder': ('M10,4H4c-1.1,0 -1.99,0.9 -1.99,2L2,18c0,1.1 0.9,2 2,2h16c1.1,0 2,-0.9 2,-2V8c0,-1.1 -0.9,-2 -2,-2h-8l-2,-2z', 0),
+              'ic_vivo_developer': ('M9.4,16.6L4.8,12l4.6,-4.6L8,6l-6,6 6,6 1.4,-1.4zm5.2,0l4.6,-4.6 -4.6,-4.6L16,6l6,6 -6,6 -1.4,-1.4z', 0)
           }
 
           for name, (path, stroke) in icons.items():
@@ -223,8 +138,8 @@ jobs:
                   applicationId "com.myvivo.s1pro.shortcutcenter"
                   minSdk 26
                   targetSdk 33
-                  versionCode 20
-                  versionName "20.0_ZeroErrorRelease"
+                  versionCode 22
+                  versionName "22.0_ProfessionalAppUI"
               }
               compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
               kotlinOptions { jvmTarget = '17' }
@@ -247,7 +162,7 @@ jobs:
           </resources>
           EOF
 
-          # 4. AndroidManifest.xml
+          # 4. AndroidManifest.xml (Using New Vector Icon)
           cat << 'EOF' > app/src/main/AndroidManifest.xml
           <?xml version="1.0" encoding="utf-8"?>
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
@@ -267,8 +182,8 @@ jobs:
               <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
               <application
                   android:label="Shortcut Center"
-                  android:icon="@mipmap/ic_launcher"
-                  android:roundIcon="@mipmap/ic_launcher_round"
+                  android:icon="@drawable/ic_launcher"
+                  android:roundIcon="@drawable/ic_launcher_round"
                   android:theme="@style/Theme.VivoFuntouch">
                   <activity android:name=".MainActivity" android:exported="true">
                       <intent-filter>
@@ -276,14 +191,12 @@ jobs:
                           <category android:name="android.intent.category.LAUNCHER" />
                       </intent-filter>
                   </activity>
-                  <activity android:name=".CustomTilesActivity" android:exported="false" />
                   <service android:name=".VivoOverlayService" android:enabled="true" android:exported="false" />
-                  <receiver android:name=".BootReceiver" android:enabled="true" android:exported="true" android:directBootAware="true">
+                  <receiver android:name=".BootReceiver" android:enabled="true" android:exported="true" directBootAware="true">
                       <intent-filter android:priority="999">
                           <action android:name="android.intent.action.BOOT_COMPLETED" />
                           <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
                           <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-                          <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
                       </intent-filter>
                   </receiver>
               </application>
@@ -311,69 +224,40 @@ jobs:
           # 6. ShortcutTile.kt
           cat << 'EOF' > app/src/main/java/com/vivo/funtouch/shortcutcenter/ShortcutTile.kt
           package com.vivo.funtouch.shortcutcenter
-          import android.content.Context
 
-          data class ShortcutTile(val id: String, val title: String, val iconRes: Int, var isActive: Boolean = false, var isDisplayed: Boolean = true)
+          data class ShortcutTile(val id: String, val title: String, val iconRes: Int, var isActive: Boolean = false)
 
           object TileRegistry {
-              fun getAllAvailableTiles(): ArrayList<ShortcutTile> {
-                  return arrayListOf(
-                      // Row 1 (5 tiles across)
-                      ShortcutTile("calc", "Calculator", R.drawable.ic_vivo_calc, isDisplayed = true),
-                      ShortcutTile("game", "Ultra Game\nMode", R.drawable.ic_vivo_game, isActive = true, isDisplayed = true),
-                      ShortcutTile("hotspot", "Hotspot", R.drawable.ic_vivo_hotspot, isDisplayed = true),
-                      ShortcutTile("low_power", "Low power", R.drawable.ic_vivo_battery, isDisplayed = true),
-                      ShortcutTile("super_battery", "Super\nBattery Sav.", R.drawable.ic_vivo_super_battery, isDisplayed = true),
+              fun getRow1Tiles(): ArrayList<ShortcutTile> = arrayListOf(
+                  ShortcutTile("calc", "Calculator", R.drawable.ic_vivo_calc),
+                  ShortcutTile("game", "Ultra Game\nMode", R.drawable.ic_vivo_game, isActive = true),
+                  ShortcutTile("hotspot", "Hotspot", R.drawable.ic_vivo_hotspot),
+                  ShortcutTile("live_power", "Live power", R.drawable.ic_vivo_battery),
+                  ShortcutTile("power_share", "Power\nShaft Pans", R.drawable.ic_vivo_super_battery)
+              )
 
-                      // Row 2 (5 tiles across)
-                      ShortcutTile("silent", "Silent mode", R.drawable.ic_vivo_silent, isDisplayed = true),
-                      ShortcutTile("screenrec", "Record\nScreen", R.drawable.ic_vivo_record, isDisplayed = true),
-                      ShortcutTile("rotation", "Rotation", R.drawable.ic_vivo_rotation, isActive = true, isDisplayed = true),
-                      ShortcutTile("camera", "Camera", R.drawable.ic_vivo_camera, isDisplayed = true),
-                      ShortcutTile("power", "Power off", R.drawable.ic_vivo_power, isDisplayed = true),
+              fun getRow2Tiles(): ArrayList<ShortcutTile> = arrayListOf(
+                  ShortcutTile("silent", "Silent mode", R.drawable.ic_vivo_silent),
+                  ShortcutTile("screenrec", "Record\nScreen", R.drawable.ic_vivo_record),
+                  ShortcutTile("rotation", "Rotation", R.drawable.ic_vivo_rotation, isActive = true),
+                  ShortcutTile("camera", "Camera", R.drawable.ic_vivo_camera),
+                  ShortcutTile("screenshot", "Screenshot", R.drawable.ic_vivo_screenshot)
+              )
 
-                      // Row 3 (3 tiles on left)
-                      ShortcutTile("eye", "Eye\nProtection", R.drawable.ic_vivo_eye, isDisplayed = true),
-                      ShortcutTile("dark", "Dark Mode", R.drawable.ic_vivo_dark, isActive = true, isDisplayed = true),
-                      ShortcutTile("wifi", "Wi-Fi", R.drawable.ic_vivo_wifi, isDisplayed = true),
-
-                      // Row 4 (3 tiles on left)
-                      ShortcutTile("scapture", "S-capture", R.drawable.ic_vivo_scapture, isDisplayed = true),
-                      ShortcutTile("vibrate", "Vibration", R.drawable.ic_vivo_vibrate, isDisplayed = true),
-                      ShortcutTile("data", "Data\nnetwork", R.drawable.ic_vivo_data, isDisplayed = true),
-
-                      // Row 5 (3 tiles on left)
-                      ShortcutTile("speed", "Speed up", R.drawable.ic_vivo_rocket, isDisplayed = true),
-                      ShortcutTile("bluetooth", "Bluetooth", R.drawable.ic_vivo_bluetooth, isDisplayed = true),
-                      ShortcutTile("torch", "Flashlight", R.drawable.ic_vivo_torch, isDisplayed = true),
-
-                      // Available pool in Custom screen
-                      ShortcutTile("location", "Location", R.drawable.ic_vivo_location, isDisplayed = false),
-                      ShortcutTile("sim", "Switch SIM\ncard", R.drawable.ic_vivo_sim, isDisplayed = false),
-                      ShortcutTile("airplane", "Airplane\nmode", R.drawable.ic_vivo_airplane, isDisplayed = false),
-                      ShortcutTile("splitscreen", "Split-screen", R.drawable.ic_vivo_split, isDisplayed = false),
-                      ShortcutTile("dnd", "Do Not\nDisturb", R.drawable.ic_vivo_dnd, isDisplayed = false),
-                      ShortcutTile("easytouch", "Easy Touch", R.drawable.ic_vivo_easytouch, isDisplayed = false),
-                      ShortcutTile("device_ctrl", "Device\ncontrols", R.drawable.ic_vivo_home, isDisplayed = false),
-                      ShortcutTile("motorbike", "Motorbike\nmode", R.drawable.ic_vivo_motorbike, isDisplayed = false),
-                      ShortcutTile("miniscreen", "Mini screen\nmode", R.drawable.ic_vivo_mini, isDisplayed = false),
-                      ShortcutTile("mirroring", "Smart\nMirroring", R.drawable.ic_vivo_cast, isDisplayed = false),
-                      ShortcutTile("jovi", "Jovi Vision", R.drawable.ic_vivo_jovi, isDisplayed = false),
-                      ShortcutTile("vivoshare", "vivoshare", R.drawable.ic_vivo_share, isDisplayed = false),
-                      ShortcutTile("nearby", "Nearby\nShare", R.drawable.ic_vivo_nearby, isDisplayed = false),
-                      ShortcutTile("tileaction", "Tile action", R.drawable.ic_vivo_action, isDisplayed = false)
-                  )
-              }
-              fun loadSavedTiles(ctx: Context): ArrayList<ShortcutTile> {
-                  val all = getAllAvailableTiles()
-                  val active = ctx.getSharedPreferences("vivo_tiles_prefs", Context.MODE_PRIVATE).getStringSet("active_ids", null) ?: return all
-                  all.forEach { it.isDisplayed = active.contains(it.id) }
-                  return all
-              }
-              fun saveTiles(ctx: Context, tiles: List<ShortcutTile>) {
-                  val ids = tiles.filter { it.isDisplayed }.map { it.id }.toSet()
-                  ctx.getSharedPreferences("vivo_tiles_prefs", Context.MODE_PRIVATE).edit().putStringSet("active_ids", ids).apply()
-              }
+              fun getBottomGridTiles(): ArrayList<ShortcutTile> = arrayListOf(
+                  ShortcutTile("eye", "Eye\nProtection", R.drawable.ic_vivo_eye),
+                  ShortcutTile("dark", "Dark Mode", R.drawable.ic_vivo_dark, isActive = true),
+                  ShortcutTile("wifi", "tal-Fi", R.drawable.ic_vivo_wifi),
+                  ShortcutTile("scapture", "Scapture", R.drawable.ic_vivo_scapture),
+                  ShortcutTile("vibrate", "Vibration", R.drawable.ic_vivo_vibrate),
+                  ShortcutTile("data", "Data\nnetwork", R.drawable.ic_vivo_data),
+                  ShortcutTile("speed", "Speed up", R.drawable.ic_vivo_rocket),
+                  ShortcutTile("bluetooth", "Bluetooth", R.drawable.ic_vivo_bluetooth),
+                  ShortcutTile("torch", "Flashlight", R.drawable.ic_vivo_torch),
+                  ShortcutTile("ram", "Storage/RAM", R.drawable.ic_vivo_ram),
+                  ShortcutTile("restart", "Restart", R.drawable.ic_vivo_restart),
+                  ShortcutTile("power", "Power off", R.drawable.ic_vivo_power)
+              )
           }
           EOF
 
@@ -392,13 +276,13 @@ jobs:
               var isVolume: Boolean = false
               private val trackPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.parseColor("#22242D") }
               private val fillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.parseColor("#4D6EF5") }
-              private val iconPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.WHITE; textSize = 36f; textAlign = Paint.Align.CENTER }
+              private val iconPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.WHITE; textSize = 38f; textAlign = Paint.Align.CENTER }
               override fun onDraw(canvas: Canvas) {
                   super.onDraw(canvas)
                   val r = width / 2f
                   canvas.drawRoundRect(RectF(0f, 0f, width.toFloat(), height.toFloat()), r, r, trackPaint)
                   canvas.drawRoundRect(RectF(0f, height * (1f - progress), width.toFloat(), height.toFloat()), r, r, fillPaint)
-                  canvas.drawText(if (isVolume) "🔊" else "☀", width / 2f, height - 28f, iconPaint)
+                  canvas.drawText(if (isVolume) "🔊" else "☀", width / 2f, height - 32f, iconPaint)
               }
               override fun onTouchEvent(event: MotionEvent): Boolean {
                   if (event.action == MotionEvent.ACTION_DOWN || event.action == MotionEvent.ACTION_MOVE) {
@@ -419,16 +303,16 @@ jobs:
               android:layout_height="wrap_content"
               android:orientation="vertical"
               android:gravity="center"
-              android:paddingVertical="2dp">
+              android:paddingVertical="3dp">
               <FrameLayout
                   android:id="@+id/tileBackground"
-                  android:layout_width="52dp"
-                  android:layout_height="52dp"
+                  android:layout_width="54dp"
+                  android:layout_height="54dp"
                   android:background="@drawable/bg_circle_toggle_inactive">
                   <ImageView
                       android:id="@+id/tileIcon"
-                      android:layout_width="26dp"
-                      android:layout_height="26dp"
+                      android:layout_width="28dp"
+                      android:layout_height="28dp"
                       android:layout_gravity="center"
                       android:src="@drawable/ic_vivo_dark" />
               </FrameLayout>
@@ -440,7 +324,7 @@ jobs:
                   android:gravity="center"
                   android:text="Dark Mode"
                   android:textColor="#B0B4C0"
-                  android:textSize="9sp"
+                  android:textSize="9.5sp"
                   android:maxLines="2" />
           </LinearLayout>
           EOF
@@ -484,7 +368,7 @@ jobs:
           }
           EOF
 
-          # 9. Main Layout: 100% Matching Your Mockup input_file_0.png
+          # 9. Main Shortcut Center Layout Matching input_file_0.png
           cat << 'EOF' > app/src/main/res/layout/layout_vivo_shortcut_center.xml
           <?xml version="1.0" encoding="utf-8"?>
           <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -500,36 +384,12 @@ jobs:
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:orientation="vertical"
-                  android:paddingStart="14dp"
-                  android:paddingEnd="14dp"
-                  android:paddingTop="32dp"
-                  android:paddingBottom="6dp">
+                  android:paddingStart="12dp"
+                  android:paddingEnd="12dp"
+                  android:paddingTop="30dp"
+                  android:paddingBottom="8dp">
 
-                  <!-- Header -->
-                  <RelativeLayout
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_marginBottom="12dp">
-                      <TextView
-                          android:id="@+id/btnClose"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:text="Shortcut center"
-                          android:textColor="#FFFFFF"
-                          android:textSize="22sp"
-                          android:textStyle="bold" />
-                      <LinearLayout
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_alignParentEnd="true"
-                          android:gravity="center_vertical"
-                          android:orientation="horizontal">
-                          <TextView android:id="@+id/btnCollapse" android:text=" ⓥ " android:textSize="18sp" android:textColor="#B0B4C0" android:layout_width="wrap_content" android:layout_height="wrap_content" />
-                          <TextView android:id="@+id/btnCustomTiles" android:text=" ••• " android:textSize="18sp" android:textColor="#FF3B30" android:textStyle="bold" android:layout_width="wrap_content" android:layout_height="wrap_content" />
-                      </LinearLayout>
-                  </RelativeLayout>
-
-                  <!-- 4 App Cards (2x2 Grid) -->
+                  <!-- 4 App Cards (WhatsApp, YouTube / Facebook, TikTok) -->
                   <GridLayout
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
@@ -561,27 +421,17 @@ jobs:
                   <LinearLayout
                       android:id="@+id/cardFileManager"
                       android:layout_width="match_parent"
-                      android:layout_height="50dp"
+                      android:layout_height="48dp"
                       android:layout_marginTop="3dp"
-                      android:layout_marginBottom="10dp"
+                      android:layout_marginBottom="8dp"
                       android:background="@drawable/bg_service_card"
                       android:gravity="center"
                       android:orientation="horizontal">
-                      <ImageView
-                          android:layout_width="28dp"
-                          android:layout_height="28dp"
-                          android:src="@drawable/ic_vivo_folder" />
-                      <TextView
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:text=" FileManager"
-                          android:textColor="#FFFFFF"
-                          android:textSize="16sp"
-                          android:textStyle="bold"
-                          android:layout_marginStart="10dp" />
+                      <ImageView android:layout_width="26dp" android:layout_height="26dp" android:src="@drawable/ic_vivo_folder" />
+                      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" FileManager" android:textColor="#FFFFFF" android:textSize="16sp" android:textStyle="bold" android:layout_marginStart="10dp" />
                   </LinearLayout>
 
-                  <!-- Row 1: 5 Tiles Across (Calculator, Game, Hotspot, Low power, Super battery) -->
+                  <!-- Row 1: 5 Tiles Across -->
                   <androidx.recyclerview.widget.RecyclerView
                       android:id="@+id/rvTilesRow1"
                       android:layout_width="match_parent"
@@ -589,7 +439,7 @@ jobs:
                       android:nestedScrollingEnabled="false"
                       android:overScrollMode="never" />
 
-                  <!-- Row 2: 5 Tiles Across (Silent, Record, Rotation, Camera, Power) -->
+                  <!-- Row 2: 5 Tiles Across -->
                   <androidx.recyclerview.widget.RecyclerView
                       android:id="@+id/rvTilesRow2"
                       android:layout_width="match_parent"
@@ -597,26 +447,26 @@ jobs:
                       android:nestedScrollingEnabled="false"
                       android:overScrollMode="never" />
 
-                  <!-- Bottom Section: Rows 3, 4, 5 on Left (3 Cols) + Right Controls ('A'/Gear & Sliders) -->
+                  <!-- Bottom Section: Rows 3, 4, 5, 6 on Left (3 Cols) + Right Controls ('A'/Gear & Sliders) -->
                   <LinearLayout
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:orientation="horizontal"
                       android:baselineAligned="false">
 
-                      <!-- Left: 3 Columns of Tiles (Rows 3, 4, 5) -->
+                      <!-- Left: 3 Columns of Tiles (Rows 3, 4, 5, 6) -->
                       <androidx.recyclerview.widget.RecyclerView
                           android:id="@+id/rvBottomTiles"
                           android:layout_width="0dp"
-                          android:layout_height="250dp"
+                          android:layout_height="320dp"
                           android:layout_weight="3"
                           android:clipToPadding="false"
                           android:overScrollMode="never" />
 
-                      <!-- Right: Row 3 ('A' & Gear) + Rows 4 & 5 (Dual Sliders) -->
+                      <!-- Right: Row 3 ('A' & 'Settings') + Rows 4, 5, 6 (Dual Sliders) -->
                       <LinearLayout
                           android:layout_width="0dp"
-                          android:layout_height="250dp"
+                          android:layout_height="320dp"
                           android:layout_weight="1.35"
                           android:orientation="vertical"
                           android:gravity="center_horizontal">
@@ -627,34 +477,45 @@ jobs:
                               android:orientation="horizontal"
                               android:gravity="center"
                               android:layout_marginTop="2dp"
-                              android:layout_marginBottom="8dp">
+                              android:layout_marginBottom="6dp">
 
-                              <TextView
+                              <LinearLayout
                                   android:id="@+id/btnAutoBrightness"
-                                  android:layout_width="38dp"
-                                  android:layout_height="38dp"
-                                  android:background="@drawable/bg_circle_toggle_active"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="vertical"
                                   android:gravity="center"
-                                  android:text="A"
-                                  android:textColor="#FFFFFF"
-                                  android:textStyle="bold"
-                                  android:textSize="15sp"
-                                  android:layout_marginEnd="6dp" />
+                                  android:layout_marginEnd="6dp">
+                                  <TextView
+                                      android:layout_width="48dp"
+                                      android:layout_height="48dp"
+                                      android:background="@drawable/bg_circle_toggle_active"
+                                      android:gravity="center"
+                                      android:text="A"
+                                      android:textColor="#FFFFFF"
+                                      android:textStyle="bold"
+                                      android:textSize="17sp" />
+                                  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="8sp" />
+                              </LinearLayout>
 
-                              <FrameLayout
+                              <LinearLayout
                                   android:id="@+id/btnSystemSettings"
-                                  android:layout_width="38dp"
-                                  android:layout_height="38dp"
-                                  android:background="@drawable/bg_circle_toggle_inactive"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="vertical"
+                                  android:gravity="center"
                                   android:layout_marginStart="6dp">
-                                  <ImageView
-                                      android:layout_width="20dp"
-                                      android:layout_height="20dp"
-                                      android:layout_gravity="center"
-                                      android:src="@drawable/ic_vivo_settings" />
-                              </FrameLayout>
+                                  <FrameLayout
+                                      android:layout_width="48dp"
+                                      android:layout_height="48dp"
+                                      android:background="@drawable/bg_circle_toggle_inactive">
+                                      <ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_gravity="center" android:src="@drawable/ic_vivo_settings" />
+                                  </FrameLayout>
+                                  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Settings" android:textColor="#B0B4C0" android:textSize="9sp" />
+                              </LinearLayout>
                           </LinearLayout>
 
+                          <!-- Dual Vertical Sliders spanning Rows 4, 5, 6 Flush to Bottom -->
                           <LinearLayout
                               android:layout_width="match_parent"
                               android:layout_height="0dp"
@@ -676,67 +537,279 @@ jobs:
                           </LinearLayout>
                       </LinearLayout>
                   </LinearLayout>
+
+                  <!-- Full-Width Developer Option Card at the Bottom -->
+                  <LinearLayout
+                      android:id="@+id/cardDeveloperOption"
+                      android:layout_width="match_parent"
+                      android:layout_height="54dp"
+                      android:layout_marginTop="10dp"
+                      android:layout_marginBottom="6dp"
+                      android:background="@drawable/bg_service_card"
+                      android:gravity="center_vertical"
+                      android:paddingStart="24dp"
+                      android:orientation="horizontal">
+
+                      <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@drawable/ic_vivo_developer" />
+
+                      <TextView
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="Developer option"
+                          android:textColor="#FFFFFF"
+                          android:textSize="18sp"
+                          android:textStyle="bold"
+                          android:layout_marginStart="16dp" />
+                  </LinearLayout>
+
               </LinearLayout>
           </ScrollView>
           EOF
 
-          # 10. Custom Screen Layout & Activity
-          cat << 'EOF' > app/src/main/res/layout/activity_custom.xml
+          # 10. Professional Main App Dashboard Layout (activity_main.xml)
+          cat << 'EOF' > app/src/main/res/layout/activity_main.xml
           <?xml version="1.0" encoding="utf-8"?>
-          <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent" android:layout_height="match_parent"
-              android:background="#161822" android:orientation="vertical" android:padding="16dp">
-              <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:layout_marginBottom="12dp">
-                  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" android:text="Custom" android:textColor="#FFFFFF" android:textSize="19sp" android:textStyle="bold" />
-                  <TextView android:id="@+id/btnDone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="Done" android:textColor="#FFFFFF" android:textSize="16sp" />
-              </RelativeLayout>
-              <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:text="Drag the switch on the right to the left to display it in the\nShortcut Center" android:textColor="#80FFFFFF" android:textSize="12sp" android:layout_marginBottom="16dp" />
-              <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="horizontal">
-                  <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvCustomActive" android:layout_width="0dp" android:layout_weight="3" android:layout_height="match_parent" />
-                  <LinearLayout android:layout_width="0dp" android:layout_weight="2" android:layout_height="match_parent" android:background="@drawable/bg_service_card" android:orientation="vertical" android:padding="6dp">
-                      <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvCustomAvailable" android:layout_width="match_parent" android:layout_height="match_parent" />
+          <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#0E1017"
+              android:fillViewport="true">
+
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:padding="20dp"
+                  android:gravity="center_horizontal">
+
+                  <!-- App Icon & Title -->
+                  <ImageView
+                      android:id="@+id/imgAppLogo"
+                      android:layout_width="76dp"
+                      android:layout_height="76dp"
+                      android:layout_marginTop="20dp"
+                      android:layout_marginBottom="12dp"
+                      android:src="@drawable/ic_launcher" />
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Vivo Shortcut Center"
+                      android:textColor="#FFFFFF"
+                      android:textSize="22sp"
+                      android:textStyle="bold" />
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Funtouch OS Native Edition"
+                      android:textColor="#8E92A0"
+                      android:textSize="13sp"
+                      android:layout_marginTop="4dp"
+                      android:layout_marginBottom="24dp" />
+
+                  <!-- Permissions Card -->
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:background="@drawable/bg_dashboard_card"
+                      android:orientation="vertical"
+                      android:padding="18dp"
+                      android:layout_marginBottom="16dp">
+
+                      <TextView
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="REQUIRED PERMISSIONS"
+                          android:textColor="#4D6EF5"
+                          android:textSize="11sp"
+                          android:textStyle="bold"
+                          android:layout_marginBottom="12dp" />
+
+                      <!-- Overlay Permission -->
+                      <RelativeLayout
+                          android:id="@+id/btnOverlayPermission"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:paddingVertical="10dp">
+                          <TextView
+                              android:id="@+id/txtOverlayTitle"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="Floating Overlay"
+                              android:textColor="#FFFFFF"
+                              android:textSize="15sp"
+                              android:textStyle="bold" />
+                          <TextView
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_below="@id/txtOverlayTitle"
+                              android:text="Allows swiping up over any app"
+                              android:textColor="#8E92A0"
+                              android:textSize="12sp" />
+                          <TextView
+                              android:id="@+id/txtOverlayStatus"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_alignParentEnd="true"
+                              android:layout_centerVertical="true"
+                              android:text="Enable ➔"
+                              android:textColor="#4D6EF5"
+                              android:textStyle="bold" />
+                      </RelativeLayout>
+
+                      <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#15FFFFFF" android:layout_marginVertical="6dp" />
+
+                      <!-- Modify Settings -->
+                      <RelativeLayout
+                          android:id="@+id/btnWritePermission"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:paddingVertical="10dp">
+                          <TextView
+                              android:id="@+id/txtWriteTitle"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="System Brightness"
+                              android:textColor="#FFFFFF"
+                              android:textSize="15sp"
+                              android:textStyle="bold" />
+                          <TextView
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_below="@id/txtWriteTitle"
+                              android:text="Direct hardware brightness slider"
+                              android:textColor="#8E92A0"
+                              android:textSize="12sp" />
+                          <TextView
+                              android:id="@+id/txtWriteStatus"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_alignParentEnd="true"
+                              android:layout_centerVertical="true"
+                              android:text="Enable ➔"
+                              android:textColor="#4D6EF5"
+                              android:textStyle="bold" />
+                      </RelativeLayout>
+
+                      <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#15FFFFFF" android:layout_marginVertical="6dp" />
+
+                      <!-- Battery Whitelist -->
+                      <RelativeLayout
+                          android:id="@+id/btnBatteryWhitelist"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:paddingVertical="10dp">
+                          <TextView
+                              android:id="@+id/txtBatteryTitle"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="Battery Protection"
+                              android:textColor="#FFFFFF"
+                              android:textSize="15sp"
+                              android:textStyle="bold" />
+                          <TextView
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_below="@id/txtBatteryTitle"
+                              android:text="Prevents Vivo killing service in background"
+                              android:textColor="#8E92A0"
+                              android:textSize="12sp" />
+                          <TextView
+                              android:id="@+id/txtBatteryStatus"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_alignParentEnd="true"
+                              android:layout_centerVertical="true"
+                              android:text="Ignore ➔"
+                              android:textColor="#4D6EF5"
+                              android:textStyle="bold" />
+                      </RelativeLayout>
+
+                      <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#15FFFFFF" android:layout_marginVertical="6dp" />
+
+                      <!-- Vivo Autostart -->
+                      <RelativeLayout
+                          android:id="@+id/btnVivoAutostart"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:paddingVertical="10dp">
+                          <TextView
+                              android:id="@+id/txtAutoTitle"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="Vivo iManager Autostart"
+                              android:textColor="#FFFFFF"
+                              android:textSize="15sp"
+                              android:textStyle="bold" />
+                          <TextView
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_below="@id/txtAutoTitle"
+                              android:text="Enables background autostart"
+                              android:textColor="#8E92A0"
+                              android:textSize="12sp" />
+                          <TextView
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_alignParentEnd="true"
+                              android:layout_centerVertical="true"
+                              android:text="Open ➔"
+                              android:textColor="#4D6EF5"
+                              android:textStyle="bold" />
+                      </RelativeLayout>
                   </LinearLayout>
+
+                  <!-- Preferences Card -->
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:background="@drawable/bg_dashboard_card"
+                      android:orientation="vertical"
+                      android:padding="18dp"
+                      android:layout_marginBottom="24dp">
+
+                      <TextView
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="BEHAVIOR"
+                          android:textColor="#4D6EF5"
+                          android:textSize="11sp"
+                          android:textStyle="bold"
+                          android:layout_marginBottom="12dp" />
+
+                      <Switch
+                          android:id="@+id/switchAutoBoot"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:text="Start automatically on phone restart"
+                          android:textColor="#FFFFFF"
+                          android:textSize="14sp" />
+                  </LinearLayout>
+
+                  <!-- Big Launch Button -->
+                  <Button
+                      android:id="@+id/btnLaunchService"
+                      android:layout_width="match_parent"
+                      android:layout_height="54dp"
+                      android:background="@drawable/bg_circle_toggle_active"
+                      android:text="START SHORTCUT CENTER"
+                      android:textColor="#FFFFFF"
+                      android:textSize="15sp"
+                      android:textStyle="bold" />
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Swipe up from the bottom edge of your screen anytime"
+                      android:textColor="#8E92A0"
+                      android:textSize="12sp"
+                      android:layout_marginTop="12dp" />
               </LinearLayout>
-          </LinearLayout>
+          </ScrollView>
           EOF
 
-          cat << 'EOF' > app/src/main/java/com/vivo/funtouch/shortcutcenter/CustomTilesActivity.kt
-          package com.vivo.funtouch.shortcutcenter
-          import android.os.Bundle
-          import android.widget.TextView
-          import androidx.appcompat.app.AppCompatActivity
-          import androidx.recyclerview.widget.GridLayoutManager
-          import androidx.recyclerview.widget.RecyclerView
-
-          class CustomTilesActivity : AppCompatActivity() {
-              override fun onCreate(savedInstanceState: Bundle?) {
-                  super.onCreate(savedInstanceState)
-                  setContentView(R.layout.activity_custom)
-                  val all = TileRegistry.loadSavedTiles(this)
-                  val rvAct = findViewById<RecyclerView>(R.id.rvCustomActive)
-                  val rvAvail = findViewById<RecyclerView>(R.id.rvCustomAvailable)
-                  val actList = all.filter { it.isDisplayed }.toMutableList()
-                  val availList = all.filter { !it.isDisplayed }.toMutableList()
-
-                  val actAdap = TileAdapter(actList, { t, p ->
-                      t.isDisplayed = false; actList.removeAt(p); availList.add(0, t)
-                      rvAct.adapter?.notifyDataSetChanged(); rvAvail.adapter?.notifyDataSetChanged()
-                  })
-                  val availAdap = TileAdapter(availList, { t, p ->
-                      t.isDisplayed = true; availList.removeAt(p); actList.add(t)
-                      actAdap.notifyDataSetChanged(); rvAvail.adapter?.notifyDataSetChanged()
-                  })
-                  rvAct.layoutManager = GridLayoutManager(this, 3); rvAct.adapter = actAdap
-                  rvAvail.layoutManager = GridLayoutManager(this, 2); rvAvail.adapter = availAdap
-                  findViewById<TextView>(R.id.btnDone).setOnClickListener {
-                      TileRegistry.saveTiles(this, all)
-                      finish()
-                  }
-              }
-          }
-          EOF
-
-          # 11. VivoOverlayService.kt (Instant 1-Click Toggles & App Card Handlers)
+          # 11. VivoOverlayService.kt (Smooth Dismiss on Long Press & 1-Click Toggles)
           cat << 'EOF' > app/src/main/java/com/vivo/funtouch/shortcutcenter/VivoOverlayService.kt
           package com.vivo.funtouch.shortcutcenter
           import android.annotation.SuppressLint
@@ -804,12 +877,9 @@ jobs:
                   volume.onProgressChanged = { am.setStreamVolume(AudioManager.STREAM_MUSIC, (it * am.getStreamMaxVolume(AudioManager.STREAM_MUSIC)).toInt(), 0) }
                   brightness.onProgressChanged = { if (Settings.System.canWrite(this)) Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, (it * 255).toInt()) }
 
-                  val allTiles = TileRegistry.loadSavedTiles(this).filter { it.isDisplayed }.toMutableList()
-
-                  // Split into Row 1 (5 tiles), Row 2 (5 tiles), and Bottom (9 tiles)
-                  val row1Tiles = if (allTiles.size >= 5) allTiles.subList(0, 5).toMutableList() else allTiles.toMutableList()
-                  val row2Tiles = if (allTiles.size >= 10) allTiles.subList(5, 10).toMutableList() else mutableListOf()
-                  val bottomTiles = if (allTiles.size > 10) allTiles.subList(10, allTiles.size).toMutableList() else mutableListOf()
+                  val row1Tiles = TileRegistry.getRow1Tiles()
+                  val row2Tiles = TileRegistry.getRow2Tiles()
+                  val bottomTiles = TileRegistry.getBottomGridTiles()
 
                   val rvRow1 = panelView.findViewById<RecyclerView>(R.id.rvTilesRow1)
                   val rvRow2 = panelView.findViewById<RecyclerView>(R.id.rvTilesRow2)
@@ -821,7 +891,6 @@ jobs:
                           toggleTile(t)
                           rv.adapter?.notifyItemChanged(pos)
                       }, { t, _ ->
-                          vibeHeavy()
                           openTileSettings(t.id)
                       })
                   }
@@ -842,8 +911,21 @@ jobs:
                   panelView.findViewById<View>(R.id.cardTikTok).setOnClickListener { vibeClick(); launchPkg("com.zhiliaoapp.musically", "https://tiktok.com") }
                   panelView.findViewById<View>(R.id.cardFileManager).setOnClickListener {
                       vibeClick()
-                      hidePanel()
-                      try { startActivity(Intent(Intent.ACTION_GET_CONTENT).setType("*/*").apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }) } catch (e: Exception) {}
+                      hidePanel {
+                          try { startActivity(Intent(Intent.ACTION_GET_CONTENT).setType("*/*").apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }) } catch (e: Exception) {}
+                      }
+                  }
+
+                  // Developer Option Card
+                  panelView.findViewById<View>(R.id.cardDeveloperOption).setOnClickListener {
+                      vibeClick()
+                      hidePanel {
+                          try {
+                              startActivity(Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS).apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP) })
+                          } catch (e: Exception) {
+                              startActivity(Intent(Settings.ACTION_SETTINGS).apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) })
+                          }
+                      }
                   }
 
                   // Auto-brightness 'A' Toggle
@@ -856,12 +938,15 @@ jobs:
                       }
                   }
 
-                  panelView.findViewById<View>(R.id.btnSystemSettings).setOnClickListener { vibeClick(); hidePanel(); startActivity(Intent(Settings.ACTION_SETTINGS).apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }) }
-                  panelView.findViewById<View>(R.id.btnClose).setOnClickListener { vibeClick(); hidePanel() }
-                  panelView.findViewById<View>(R.id.btnCollapse).setOnClickListener { vibeClick(); hidePanel() }
-                  panelView.findViewById<View>(R.id.btnCustomTiles).setOnClickListener { vibeClick(); hidePanel(); startActivity(Intent(this, CustomTilesActivity::class.java).apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }) }
+                  panelView.findViewById<View>(R.id.btnSystemSettings).setOnClickListener {
+                      vibeClick()
+                      hidePanel {
+                          startActivity(Intent(Settings.ACTION_SETTINGS).apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP) })
+                      }
+                  }
               }
 
+              // --- 1-CLICK INSTANT TOGGLES ---
               private fun toggleTile(t: ShortcutTile) {
                   val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
                   when (t.id) {
@@ -911,9 +996,10 @@ jobs:
                           am.ringerMode = if (am.ringerMode == AudioManager.RINGER_MODE_SILENT) AudioManager.RINGER_MODE_NORMAL else AudioManager.RINGER_MODE_SILENT
                           t.isActive = (am.ringerMode == AudioManager.RINGER_MODE_SILENT)
                       }
-                      "speed" -> {
+                      "speed", "ram" -> {
                           t.isActive = true
-                          Toast.makeText(this, "Memory Cleaned & Speed Boosted!", Toast.LENGTH_SHORT).show()
+                          vibeClick()
+                          Toast.makeText(this, "Storage & RAM Optimized!", Toast.LENGTH_SHORT).show()
                       }
                       "data" -> {
                           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -926,41 +1012,47 @@ jobs:
                       "camera" -> startActivity(Intent("android.media.action.STILL_IMAGE_CAMERA").apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) })
                       "hotspot" -> startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS).apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) })
                       "airplane" -> startActivity(Intent(Settings.ACTION_AIRPLANE_MODE_SETTINGS).apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) })
-                      "power" -> {
+                      "power", "restart" -> {
                           val intent = Intent(Intent.ACTION_SHUTDOWN).apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }
                           try { startActivity(intent) } catch (e: Exception) {
-                              Toast.makeText(this, "Long press device power key to shut down", Toast.LENGTH_SHORT).show()
+                              Toast.makeText(this, "Long press power key on device", Toast.LENGTH_SHORT).show()
                           }
                       }
                       else -> t.isActive = !t.isActive
                   }
               }
 
+              // --- LONG PRESS: DISMISS PANEL & DIRECT SETTINGS LAUNCH ---
               private fun openTileSettings(tileId: String) {
-                  hidePanel()
+                  vibeHeavy()
                   val intent = when (tileId) {
                       "wifi" -> Intent(Settings.ACTION_WIFI_SETTINGS)
                       "bluetooth" -> Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
                       "data" -> Intent(Settings.ACTION_DATA_ROAMING_SETTINGS)
                       "dark", "eye" -> Intent(Settings.ACTION_DISPLAY_SETTINGS)
                       "vibrate", "silent" -> Intent(Settings.ACTION_SOUND_SETTINGS)
-                      "airplane" -> Intent(Settings.ACTION_AIRPLANE_MODE_SETTINGS)
-                      "location" -> Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                      "rotation" -> Intent(Settings.ACTION_DISPLAY_SETTINGS)
                       "hotspot" -> Intent(Settings.ACTION_WIRELESS_SETTINGS)
-                      "dnd" -> Intent(Settings.ACTION_ZEN_MODE_PRIORITY_SETTINGS)
-                      "low_power", "super_battery" -> Intent(Settings.ACTION_BATTERY_SAVER_SETTINGS)
+                      "low_power", "super_battery", "live_power", "power_share" -> Intent(Settings.ACTION_BATTERY_SAVER_SETTINGS)
+                      "ram" -> Intent(Settings.ACTION_INTERNAL_STORAGE_SETTINGS)
                       else -> Intent(Settings.ACTION_SETTINGS)
                   }
-                  try { startActivity(intent.apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }) } catch (e: Exception) {}
+                  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                  hidePanel {
+                      try { startActivity(intent) } catch (e: Exception) {
+                          try { startActivity(Intent(Settings.ACTION_SETTINGS).apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }) } catch (ex: Exception) {}
+                      }
+                  }
               }
 
               private fun launchPkg(pkg: String, fallbackUrl: String) {
-                  hidePanel()
-                  val intent = packageManager.getLaunchIntentForPackage(pkg)
-                  if (intent != null) {
-                      startActivity(intent.apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) })
-                  } else {
-                      try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(fallbackUrl)).apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }) } catch (e: Exception) {}
+                  hidePanel {
+                      val intent = packageManager.getLaunchIntentForPackage(pkg)
+                      if (intent != null) {
+                          startActivity(intent.apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) })
+                      } else {
+                          try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(fallbackUrl)).apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }) } catch (e: Exception) {}
+                      }
                   }
               }
 
@@ -972,12 +1064,20 @@ jobs:
                   setupVivoPanel()
                   wm.addView(panelView, WindowManager.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY, WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, PixelFormat.TRANSLUCENT))
                   isPanelOpen = true
-                  panelView.translationY = 1200f; panelView.animate().translationY(0f).setDuration(220).start()
+                  panelView.translationY = 1400f
+                  panelView.animate().translationY(0f).setDuration(200).setInterpolator(android.view.animation.DecelerateInterpolator()).start()
               }
 
-              private fun hidePanel() {
-                  if (!isPanelOpen) return
-                  panelView.animate().translationY(1200f).setDuration(180).withEndAction { try { wm.removeView(panelView) } catch (e: Exception) {}; isPanelOpen = false }.start()
+              private fun hidePanel(onClosed: (() -> Unit)? = null) {
+                  if (!isPanelOpen) {
+                      onClosed?.invoke()
+                      return
+                  }
+                  isPanelOpen = false
+                  panelView.animate().translationY(1400f).setDuration(160).setInterpolator(android.view.animation.AccelerateInterpolator()).withEndAction {
+                      try { wm.removeView(panelView) } catch (e: Exception) {}
+                      onClosed?.invoke()
+                  }.start()
               }
 
               override fun onDestroy() {
@@ -988,10 +1088,11 @@ jobs:
           }
           EOF
 
-          # 12. MainActivity.kt
+          # 12. MainActivity.kt (Professional App Dashboard with Real-Time Badges)
           cat << 'EOF' > app/src/main/java/com/vivo/funtouch/shortcutcenter/MainActivity.kt
           package com.vivo.funtouch.shortcutcenter
           import android.content.*
+          import android.graphics.Color
           import android.net.Uri
           import android.os.*
           import android.provider.Settings
@@ -999,54 +1100,95 @@ jobs:
           import androidx.appcompat.app.AppCompatActivity
 
           class MainActivity : AppCompatActivity() {
+
               override fun onCreate(savedInstanceState: Bundle?) {
                   super.onCreate(savedInstanceState)
-                  val layout = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(50, 60, 50, 50) }
-                  layout.addView(TextView(this).apply { text = "Vivo Shortcut Center"; textSize = 22f; setPadding(0, 0, 0, 24) })
+                  setContentView(R.layout.activity_main)
 
-                  layout.addView(Button(this).apply { text = "1. Enable Floating Overlay"; setOnClickListener { startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName"))) } })
-                  layout.addView(Button(this).apply { text = "2. Enable Brightness Permission"; setOnClickListener { startActivity(Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:$packageName"))) } })
-                  layout.addView(Button(this).apply {
-                      text = "3. Disable Battery Restrictions"
-                      setOnClickListener {
-                          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                              val pm = getSystemService(PowerManager::class.java)
-                              if (!pm.isIgnoringBatteryOptimizations(packageName)) startActivity(Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply { data = Uri.parse("package:$packageName") })
-                              else Toast.makeText(this@MainActivity, "Already whitelisted!", Toast.LENGTH_SHORT).show()
+                  findViewById<RelativeLayout>(R.id.btnOverlayPermission).setOnClickListener {
+                      startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")))
+                  }
+
+                  findViewById<RelativeLayout>(R.id.btnWritePermission).setOnClickListener {
+                      startActivity(Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:$packageName")))
+                  }
+
+                  findViewById<RelativeLayout>(R.id.btnBatteryWhitelist).setOnClickListener {
+                      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                          val pm = getSystemService(PowerManager::class.java)
+                          if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                              startActivity(Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
+                                  data = Uri.parse("package:$packageName")
+                              })
+                          } else {
+                              Toast.makeText(this, "Battery whitelist already active!", Toast.LENGTH_SHORT).show()
                           }
                       }
-                  })
-                  layout.addView(Button(this).apply {
-                      text = "4. Open Vivo Autostart Settings"
-                      setOnClickListener {
-                          val intents = arrayOf(
-                              Intent().setComponent(ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity")),
-                              Intent().setComponent(ComponentName("com.iqoo.secure", "com.iqoo.secure.ui.phoneoptimize.AddWhiteListActivity")),
-                              Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(Uri.parse("package:$packageName"))
-                          )
-                          for (it in intents) { try { startActivity(it); return@setOnClickListener } catch (e: Exception) {} }
-                      }
-                  })
+                  }
+
+                  findViewById<RelativeLayout>(R.id.btnVivoAutostart).setOnClickListener {
+                      val intents = arrayOf(
+                          Intent().setComponent(ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity")),
+                          Intent().setComponent(ComponentName("com.iqoo.secure", "com.iqoo.secure.ui.phoneoptimize.AddWhiteListActivity")),
+                          Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(Uri.parse("package:$packageName"))
+                      )
+                      for (it in intents) { try { startActivity(it); return@setOnClickListener } catch (e: Exception) {} }
+                  }
 
                   val prefs = getSharedPreferences("vivo_shortcut_prefs", Context.MODE_PRIVATE)
-                  layout.addView(Switch(this).apply {
-                      text = "Start automatically on phone restart"
-                      isChecked = prefs.getBoolean("pref_start_on_boot", false)
-                      setPadding(0, 24, 0, 24)
-                      setOnCheckedChangeListener { _, c -> prefs.edit().putBoolean("pref_start_on_boot", c).apply() }
-                  })
+                  val switchBoot = findViewById<Switch>(R.id.switchAutoBoot)
+                  switchBoot.isChecked = prefs.getBoolean("pref_start_on_boot", false)
+                  switchBoot.setOnCheckedChangeListener { _, isChecked ->
+                      prefs.edit().putBoolean("pref_start_on_boot", isChecked).apply()
+                  }
 
-                  layout.addView(Button(this).apply {
-                      text = "5. Start Shortcut Center Now"
-                      setOnClickListener {
-                          if (Settings.canDrawOverlays(this@MainActivity)) {
-                              val s = Intent(this@MainActivity, VivoOverlayService::class.java)
-                              if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startForegroundService(s) else startService(s)
-                              Toast.makeText(this@MainActivity, "Shortcut Center Active! Swipe up from bottom edge", Toast.LENGTH_LONG).show()
-                          } else Toast.makeText(this@MainActivity, "Grant Floating Overlay first", Toast.LENGTH_SHORT).show()
+                  findViewById<Button>(R.id.btnLaunchService).setOnClickListener {
+                      if (Settings.canDrawOverlays(this)) {
+                          val svc = Intent(this, VivoOverlayService::class.java)
+                          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startForegroundService(svc) else startService(svc)
+                          Toast.makeText(this, "Shortcut Center Active! Swipe up from bottom edge", Toast.LENGTH_LONG).show()
+                      } else {
+                          Toast.makeText(this, "Please grant Floating Overlay first", Toast.LENGTH_SHORT).show()
                       }
-                  })
-                  setContentView(layout)
+                  }
+              }
+
+              override fun onResume() {
+                  super.onResume()
+                  updateBadges()
+              }
+
+              // Real-Time Badge Updates (Turns Emerald Green when granted)
+              private fun updateBadges() {
+                  val txtOverlay = findViewById<TextView>(R.id.txtOverlayStatus)
+                  if (Settings.canDrawOverlays(this)) {
+                      txtOverlay.text = "Active ✓"
+                      txtOverlay.setTextColor(Color.parseColor("#22C55E"))
+                  } else {
+                      txtOverlay.text = "Enable ➔"
+                      txtOverlay.setTextColor(Color.parseColor("#4D6EF5"))
+                  }
+
+                  val txtWrite = findViewById<TextView>(R.id.txtWriteStatus)
+                  if (Settings.System.canWrite(this)) {
+                      txtWrite.text = "Active ✓"
+                      txtWrite.setTextColor(Color.parseColor("#22C55E"))
+                  } else {
+                      txtWrite.text = "Enable ➔"
+                      txtWrite.setTextColor(Color.parseColor("#4D6EF5"))
+                  }
+
+                  val txtBattery = findViewById<TextView>(R.id.txtBatteryStatus)
+                  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                      val pm = getSystemService(PowerManager::class.java)
+                      if (pm.isIgnoringBatteryOptimizations(packageName)) {
+                          txtBattery.text = "Whitelisted ✓"
+                          txtBattery.setTextColor(Color.parseColor("#22C55E"))
+                      } else {
+                          txtBattery.text = "Ignore ➔"
+                          txtBattery.setTextColor(Color.parseColor("#4D6EF5"))
+                      }
+                  }
               }
           }
           EOF
@@ -1067,13 +1209,12 @@ jobs:
           path: apk_output/VivoControlCenter.apk
           if-no-files-found: error
 
-      # Guaranteed Release publishing using dynamic build tags
       - name: Publish Direct Release Download
         uses: softprops/action-gh-release@v2
         with:
           tag_name: "v${{ github.run_number }}"
           name: "Vivo Control Center (Build #${{ github.run_number }})"
-          body: "Direct APK file for Vivo S1 Pro with your custom layout, cards, and 1-click toggles."
+          body: "Direct APK file for Vivo S1 Pro with professional App Dashboard, new app icon, and instant 1-click toggles."
           files: apk_output/VivoControlCenter.apk
           draft: false
           prerelease: false
